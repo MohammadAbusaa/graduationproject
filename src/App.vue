@@ -1,5 +1,5 @@
 <template>
-  <div id="nav">
+  <div id="nav" v-if="!['teacher'].includes($route.name)">
   <div id ="nav2">
     <router-link to="/" exact>الصفحة الرئيسة</router-link> |
     <router-link to="/about">حول الصفحة </router-link>|

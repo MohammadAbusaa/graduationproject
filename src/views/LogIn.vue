@@ -1,13 +1,13 @@
 <template>
- <form   class="box"  method="post" >
+ <div class="box">
 
 
-    <input type="text"  name="reg" placeholder="Email Address" id="reg">
-    <input type="password" name="password" placeholder="Password" required title="please fill the password field">
+    <input type="text"  name="reg" placeholder="Email Address" id="reg" v-model="email">
+    <input type="password" name="password" placeholder="Password" v-model="password" required title="please fill the password field">
     <div class="options">
         <label class="remember-me">
               <span class="checkbox">
-                <input type="checkbox">
+                <input type="checkbox" v-model="remember">
                 <span class="checked"></span>
               </span>
             Remember me
@@ -19,8 +19,8 @@
         <a href="#blackout" data-toggle="box" data-target="#blackout"  >Forgot Your Password !</a>
 
     </div>
-    <input type="submit" name="submit" value="Login" >
-</form >
+    <input @click.prevent="login" type="submit" name="submit" value="Login" >
+</div >
 
 
 <div id="blackout">
@@ -49,8 +49,38 @@
 </template>
 
 <script>
+import axiosinst from '../axios';
+//import axios from "axios";
+//axios.defaults.withCredentials=true;
+
 export default {
-    name: 'LogIn'
+    name: 'LogIn',
+    data:function(){
+      return{
+        remember:false,
+        email:"",
+        password:"",
+      }
+    },
+    methods:{
+      login(){
+        axiosinst.post("http://127.0.0.1:8000/api/loginUser",{
+            email:this.email,
+            password:this.password,
+            remember:this.remember,
+          }).then((res)=>{
+            this.$router.push(res.data.link);
+            this.token=res.data.token;
+            this.$store.commit('ChTok',{token:res.data.token});
+            console.warn(window.localStorage.getItem('xx'));
+            window.localStorage.setItem('userToken',res.data.token);
+            //this.$emit('token',res.data.token);
+            console.info(res.data.token);
+          }).catch((err)=>{
+            console.log(err);
+          });
+      }
+    }
 }
 </script>
 

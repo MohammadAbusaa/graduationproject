@@ -3,6 +3,8 @@ import Home from "../views/Home.vue";
 import signup from "../views/signup.vue";
 import About from "../views/About.vue";
 import LogIn from "../views/LogIn.vue";
+import dashboard from "../views/dashboard.vue";
+import teacher from "../views/teacher.vue";
 const routes = [
   {
     path: "/",
@@ -25,6 +27,16 @@ const routes = [
     name: "LogIn",
     component: LogIn
   } ,
+  {
+    path:"/dashboard",
+    name:"dashboard",
+    component: dashboard
+  },
+  {
+    path:"/teacher",
+    name:"teacher",
+    component:teacher
+  },
 ];
 
 const router = createRouter({
