@@ -5,7 +5,7 @@
         <a class="active" @click="showRooms">
           <div>
             الصفوف التي انشأتها
-            <img src="calsses.png" alt="" style="width:50px;height:50px;" />
+            <img :src="calssesLogo" alt="" style="width:50px;height:50px;" />
           </div>
         </a>
       </li>
@@ -13,7 +13,7 @@
         <a href="#newclasses" >
           <div>
             انشاء غرفة صفية
-            <img src="add-event.png" alt="" style="width:50px;height:50px;" />
+            <img :src="addeventLogo" alt="" style="width:50px;height:50px;" />
           </div>
         </a>
       </li>
@@ -21,7 +21,7 @@
         <a href="#teachertinfo" @click="showInfo">
           <div>
             المعلومات الشخصية
-            <img src="info.png" alt="" style="width:50px;height:50px;" />
+            <img :src="infoLogo" alt="" style="width:50px;height:50px;" />
           </div>
         </a>
       </li>
@@ -39,7 +39,7 @@
     <div id="box">
       <div class="exit">
         <a href="#">
-          <img src="cancel.png" alt="" style="width:30px;height:30px;" />
+          <img :src="cancelLogo" alt="" style="width:30px;height:30px;" />
         </a>
       </div>
       <div class="roomname">
@@ -67,10 +67,10 @@
       </select>
       <p>:نوع الغرفة الصفية</p>
       <input type="radio" id="public" name="roomPub" value="public" @click="onChange($event)" />
-      <label for="pu">عام</label>
+      <label for="public">عام</label>
       <input type="radio" id="private" name="roomPri" value="private" @click="onChange($event)"/>
-      <label for="pr">خاص</label>
-      <input type="submit" @click.prevent="sendRoomData" class="save" name="" value="انشاء" />
+      <label for="private">خاص</label>
+      <input type="submit" id="private" @click.prevent="sendRoomData" class="save" name="" value="انشاء" />
     </div>
   </div>
 
@@ -78,7 +78,7 @@
     <div id="boxchange">
       <div class="exit">
         <a href="#">
-          <img src="cancel.png" alt="" style="width:30px;height:30px;" />
+          <img :src="cancelLogo" alt="" style="width:30px;height:30px;" />
         </a>
       </div>
       <div class="a">
@@ -116,18 +116,18 @@
     <div id="box1">
       <div class="exit">
         <a href="#">
-          <img src="cancel.png" alt="" style="width:30px;height:30px;" />
+          <img :src="cancelLogo" alt="" style="width:30px;height:30px;" />
         </a>
       </div>
 
-      <div class="box" method="post" enctype="multipart/form-data">
-        <div id="pic1" style=""><img id="i1" width="100%" height="100" /></div>
+      <div class="box">
+        <div id="pic1" style=""><img :src="img" id="i1" width="100%" height="100" /></div>
         <div class="card">
           <div class="upload-btn-wrapper">
-            <button class="btn" type="submit" id="submit" name="submit">
-              Upload your pic
+            <button class="btn" type="submit" id="submit" name="submit" >
+              تغيير الصورة الشخصية
             </button>
-            <input type="file" />
+            <input type="file" name="personPic" id="personPic" ref="personPic" @change="uploadPic" />
           </div>
 
           <table>
@@ -155,9 +155,14 @@
 import axiosinst from '../axios';
   export default {
     name: "teacher",
-    data: {
+    data:
       function() {
         return {
+          addeventLogo:require('@/assets/add-event.png'),
+          cancelLogo:require('@/assets/cancel.png'),
+          infoLogo:require('@/assets/info.png'),
+          calssesLogo:require('@/assets/calsses.png'),
+
           rooms:{},
           EmailDB:"",
           NameDB:"",
@@ -173,11 +178,13 @@ import axiosinst from '../axios';
           RoomClass:"",
           roomType:"",
           errs:[],
-          regex:'/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/',
+          regex:/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
+          pic:'',
+          allowedTypes:['image/png','image/jpg','image/jpeg'],
+          img:'',
 
         };
       },
-    },
     methods: {
       onChange(event){
         this.roomType=event.target.value;
@@ -204,13 +211,17 @@ import axiosinst from '../axios';
           'type':this.roomType,
         },{
           headers:{
-                    'Authorization': 'Bearer '+this.$store.state.userToken,
+                    'Authorization': 'Bearer '+window.localStorage.getItem('userToken'),
                 }
         }).then((res)=>{
-          this.$router.push(res.data.link);
           console.info(res.data);
         }).catch((err)=>{
           console.error(err);
+          if(err.response){
+            console.warn(err.response);
+            if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
+            console.warn(err.response.status);
+          }
         });
       },
       sendNewInfo(){
@@ -229,13 +240,18 @@ import axiosinst from '../axios';
           'password':this.oldPass,
         },{
           headers:{
-                    'Authorization': 'Bearer '+this.$store.state.userToken,
+                    'Authorization': 'Bearer '+window.localStorage.getItem('userToken'),
                 }
         }).then((res)=>{
           console.info(res.data);
           if(!(res.data.flag))this.errs.push("كلمة السر القديمة غير صحيحة");
         }).catch((err)=>{
           console.error(err);
+          if(err.response){
+            console.warn(err.response);
+            if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
+            console.warn(err.response.status);
+          }
         });
         if(this.errs.length)return;
 
@@ -245,64 +261,137 @@ import axiosinst from '../axios';
           'password':this.newPass,
         },{
           headers:{
-                    'Authorization': 'Bearer '+this.$store.state.userToken,
+                    'Authorization': 'Bearer '+window.localStorage.getItem('userToken'),
                 }
         }).then((res)=>{
           this.$router.push(res.data.link);
           console.info(res.data);
         }).catch((err)=>{
           console.error(err);
+          if(err.response){
+              console.warn(err.response);
+              if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
+              console.warn(err.response.status);
+          }
         });
       },
       showRooms(){
         axiosinst.post('http://localhost:8000/api/showTRooms',{},{
           headers:{
-                    'Authorization': 'Bearer '+this.$store.state.userToken,
+                    'Authorization': 'Bearer '+window.localStorage.getItem('userToken'),
                 }
         }).then((res)=>{
           console.info(res.data);
           this.rooms=res.data.rooms;
         }).catch((err)=>{
           console.error(err);
+          if(err.response){
+              console.warn(err.response);
+              if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
+              console.warn(err.response.status);
+          }
         });
       },
       showInfo(){
         axiosinst.post('http://localhost:8000/api/showTInfo',{},{
           headers:{
-                    'Authorization': 'Bearer '+this.$store.state.userToken,
+                    'Authorization': 'Bearer '+window.localStorage.getItem('userToken'),
                 }
         }).then((res)=>{
           console.info(res.data);
           this.NameDB=res.data.name;
           this.EmailDB=res.data.email;
-          this.JobDB=res.data.job;
+          this.JobDB=res.data.major;
+          document.getElementById('i1').src=res.data.picture;
         }).catch((err)=>{
           console.error(err);
+          if(err.response){
+              console.warn(err.response);
+              if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
+              console.warn(err.response.status);
+          }
         });
       },
       logoutUser(){
         axiosinst.post('http://localhost:8000/api/logoutUser',{},{
                 headers:{
-                    'Authorization': 'Bearer '+this.$store.state.userToken,
+                    'Authorization': 'Bearer '+window.localStorage.getItem('userToken'),
                 }
             }).then((res)=>{
                 console.info(res);
                 this.$router.push('/');
             }).catch((err)=>{
                 console.error(err);
+                if(err.response){
+                  console.warn(err.response);
+                  if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
+                  console.warn(err.response.status);
+                }
             });
       },
+      personalPicChange(){
+        this.errs.length=0;
+        this.pic=this.$refs.personPic.files[0];
+        if(!this.allowedTypes.includes(this.pic.type)){
+          console.warn('not image!');
+          this.errs.push('لم تقم باختيار صورة');
+          return;
+        }
+        console.log(this.pic);
+        let size=this.pic.size/1024/1024;
+        if(size>2){
+          console.warn('size is larger than 2! \t'+this.pic.size);
+          this.errs.push('حجم الصورة اكبر من المسموح');
+        }
+        let o=document.getElementById('i1');
+        o.src=URL.createObjectURL(this.pic);
+        o.onload=()=>{URL.revokeObjectURL(o.src);}
+        //this.img=URL.createObjectURL(this.pic);
+      },
+
+      uploadPic(){
+        this.errs.length=0;
+        this.pic=this.$refs.personPic.files[0];
+        if(!this.allowedTypes.includes(this.pic.type)){
+          console.warn('not image!');
+          this.errs.push('لم تقم باختيار صورة');
+          return;
+        }
+        console.log(this.pic);
+        let size=this.pic.size/1024/1024;
+        if(size>2){
+          console.warn('size is larger than 2! \t'+this.pic.size);
+          this.errs.push('حجم الصورة اكبر من المسموح');
+        }
+        let o=document.getElementById('i1');
+        o.src=URL.createObjectURL(this.pic);
+        o.onload=()=>{URL.revokeObjectURL(o.src);}
+        //this.img=URL.createObjectURL(this.pic);
+        let fd=new FormData();
+        fd.append('image',this.pic);
+        axiosinst.post('http://localhost:8000/api/changeProfilePic',fd,{
+        headers:{
+                  'Authorization': 'Bearer '+window.localStorage.getItem('userToken'),
+                  'Content-Type': 'multipart/form-data',
+              }
+      }).then((res)=>{
+        console.info(res.data);
+        this.pic='';
+      }).catch((err)=>{
+        console.error(err);
+        if(err.response){
+          console.warn(err.response);
+          if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
+          console.warn(err.response.status);
+        }
+      });
+      }
     },
   };
 </script>
 
 <style>
-  body {
-    background-image: url("main3.jpg");
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
-  }
+  
   ul {
     list-style-type: none;
     margin: -1%;
@@ -738,12 +827,6 @@ import axiosinst from '../axios';
     width: 50%;
     border-color: #2ecc71;
   }
-  body {
-    background-image: url("main3.jpg");
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
-  }
   ul {
     list-style-type: none;
     margin: -1%;
@@ -758,6 +841,7 @@ import axiosinst from '../axios';
   li {
     float: right;
   }
+
 
   li a {
     display: block;

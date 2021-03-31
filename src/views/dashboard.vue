@@ -26,32 +26,31 @@ export default{
         logout(){
             axiosinst.post('http://localhost:8000/api/logoutUser',{},{
                 headers:{
-                    'Authorization': 'Bearer '+this.$store.state.userToken,
+                    'Authorization': 'Bearer '+window.localStorage.getItem('userToken'),//this.$store.state.userToken,
                 }
             }).then((res)=>{
                 console.info(res);
                 this.$router.push('/');
+                window.localStorage.removeItem('userToken');
             }).catch((err)=>{
                 console.error(err);
+                if(err.response){
+                    if(err.response.status==401 || err.response.status==419){
+                        window.localStorage.removeItem('userToken');
+                        this.$router.push('/LogIn');
+                    }
+                }
             })
         },
-        showClass(index){
-            axiosinst.post('http://localhost:8000/api/getRoom/'+index,{},{
-                headers:{
-                    'Authorization': 'Bearer '+this.$store.state.userToken,
-                }
-            }).then((res)=>{
-                console.info(res.data);
-                this.$router.push(res.data.link);
-            }).catch((err)=>{
-                console.error(err);
-            });
+        showRoom(index){
+            window.localStorage.setItem('roomIndex',index);
+            this.$router.push('http://localhost:8000/stu_room');
         }
     },
     mounted(){
             axiosinst.post('http://localhost:8000/api/dashboard',{},{
                 headers:{
-                    'Authorization': 'Bearer '+this.$store.state.userToken,
+                    'Authorization': 'Bearer '+window.localStorage.getItem('userToken'),//this.$store.state.userToken,
                 }
                 
             }).then((res)=>{
@@ -59,10 +58,16 @@ export default{
                 console.info(res.data);
             }).catch((err)=>{
                 console.error(err);
+               if(err.response){
+                    if(err.response.status==401 || err.response.status==419){
+                        window.localStorage.removeItem('userToken');
+                        this.$router.push('/LogIn');
+                    }
+                }
             });
             axiosinst.post('http://localhost:8000/api/getStudentRooms',{},{
                 headers:{
-                    'Authorization': 'Bearer '+this.$store.state.userToken,
+                    'Authorization': 'Bearer '+window.localStorage.getItem('userToken')//this.$store.state.userToken,
                 }
                 
             }).then((res)=>{
@@ -70,18 +75,14 @@ export default{
                 console.info(res.data);
             }).catch((err)=>{
                 console.error(err);
+               if(err.response){
+                    if(err.response.status==401 || err.response.status==419){
+                        window.localStorage.removeItem('userToken');
+                        this.$router.push('/LogIn');
+                    }
+                }
             });
         },
-        props:{
-            msg:{
-                type:String
-            }
-        },
-        watch:{
-            msg:function(){
-                this.token=this.msg;
-            }
-        }
 }
 </script>
 <style>

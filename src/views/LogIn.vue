@@ -72,12 +72,14 @@ export default {
             this.$router.push(res.data.link);
             this.token=res.data.token;
             this.$store.commit('ChTok',{token:res.data.token});
+            window.localStorage.setItem('userToken',res.data.token);
             console.warn(window.localStorage.getItem('xx'));
+            console.warn(window.localStorage.removeItem('xx'));
             window.localStorage.setItem('userToken',res.data.token);
             //this.$emit('token',res.data.token);
             console.info(res.data.token);
           }).catch((err)=>{
-            console.log(err);
+            console.error(err);
           });
       }
     }

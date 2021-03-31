@@ -5,6 +5,8 @@ import About from "../views/About.vue";
 import LogIn from "../views/LogIn.vue";
 import dashboard from "../views/dashboard.vue";
 import teacher from "../views/teacher.vue";
+import sturoom from "../views/studentroom.vue";
+import student from "../views/student.vue";
 const routes = [
   {
     path: "/",
@@ -36,6 +38,16 @@ const routes = [
     path:"/teacher",
     name:"teacher",
     component:teacher
+  },
+  {
+    path:"/studentroom",
+    name:"sturoom",
+    component:sturoom,
+  },
+  {
+    path:"/student",
+    name:"student",
+    component:student,
   },
 ];
 

@@ -1,5 +1,5 @@
 <template>
-  <div id="nav" v-if="!['teacher'].includes($route.name)">
+  <div id="nav" v-if="!['sturoom','teacher','student'].includes($route.name)">
   <div id ="nav2">
     <router-link to="/" exact>الصفحة الرئيسة</router-link> |
     <router-link to="/about">حول الصفحة </router-link>|
@@ -7,13 +7,10 @@
     <router-link to="/LogIn">تسجيل الدخول</router-link>
     </div>
   </div>
-  <router-view />
+  <router-view/>
 </template>
 
 <style lang="scss">
-body{
-  background:#A0BACC ;
-}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
