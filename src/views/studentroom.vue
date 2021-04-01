@@ -27,7 +27,7 @@
             <h3>{{roomInf.teacher}}, {{roomInf.subject}}</h3>
         </div>
         <div class="posts-div">
-            <div v-if="Object.keys(posts).length!==0" >
+            <div v-if="posts!={}" class="scroll" >
                 <ul>
                     <li v-for="post in posts" :key="post" class="post-item">
                         <div class="header">{{post.user_id}}</div>
@@ -53,7 +53,9 @@
 
             </ul>
             <div v-else class="elseC">
-                <strong>لا يوجد أي مهمات/واجبات حاليا</strong>
+                <strong>لا يوجد أي مهمات/واجبات حاليا
+                    <button @click="checkArr">post</button>
+                </strong>
             </div>
         </div>
 
@@ -111,6 +113,9 @@ export default {
         }
     },
     methods:{
+        checkArr(){
+            console.info(this.posts);
+        },
         goBack(){
             this.$router.back();
         },
@@ -169,14 +174,14 @@ export default {
         }).catch((err)=>{
             console.error(err);
         });
-        window.Echo.private('room').listen('PostSent',(e)=>{
-            console.warn('event : '+e);
-            this.posts.push({
-                post:e.message.post,
-                user:e.user,
-            });
+    },
+    created(){
+        window.Echo.private('room.'+window.localStorage.getItem('roomIndex')).listen('.room.created',(e)=>{
+        console.warn('event : '+e);
+        this.posts.push(e.post);
         });
-    }
+    },
+
 }
 </script>
 
@@ -302,6 +307,7 @@ export default {
         grid-template-columns: auto;
         border-bottom-right-radius:15px ;
         border-bottom-left-radius:15px ;
+
     }
     .posts-div div{
         grid-column-end: span 2;
@@ -342,7 +348,6 @@ export default {
     }
     .posts-div div ul{
         width: 100%;
-        transform: translate(-18.5%);
     }
     .posts-div div ul li{
         border:1px solid grey;
@@ -381,5 +386,9 @@ export default {
     }
     .assignments{
         width: 300px;
+    }
+    .scroll{
+        overflow-y: scroll;
+        overflow-x: hidden;
     }
 </style>
