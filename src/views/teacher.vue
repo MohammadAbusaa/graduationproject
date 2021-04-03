@@ -391,6 +391,11 @@ import axiosinst from '../axios';
 </script>
 
 <style>
+body{
+
+   background:#f6f9fa ;
+}
+
   
   ul {
     list-style-type: none;
@@ -575,7 +580,7 @@ import axiosinst from '../axios';
     padding: 50px;
     border: 3px solid #a0bacc;
     border-radius: 10px;
-    color: #3498db;
+    
     position: absolute;
     top: 10px;
     right: 10px;
