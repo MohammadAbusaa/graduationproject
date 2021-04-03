@@ -13,10 +13,16 @@ const app = createApp(App)
 const vxStore=new Vuex.Store({
   state:{
     userToken:"",
+    users:{},
+    lastUser:{},
   },
   mutations:{
     ChTok(state,payload){
       state.userToken=payload.token
+    },
+    roomUsers(state,payload){
+      state.users=payload.users;
+      state.lastUser=state.lastUser[Object.keys(state.users)[Object.keys(state.users).length - 1]];
     },
   },
 });
