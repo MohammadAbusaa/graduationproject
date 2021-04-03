@@ -68,6 +68,7 @@ export default {
 };
 </script>
 <style>
+
 .signup-box {
   height: 60%;
   width: 23%;

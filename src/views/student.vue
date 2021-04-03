@@ -3,13 +3,13 @@
     <div class="navs" style="">
 
         <div style="">
-            <li style="margin-right:-40%;"><a href="#studentinfo">
-                    <div @click="getInfo">المعلومات الشخصية
+            <li style="margin-right:-45%;  background-color: #08546c;"><a href="#studentinfo">
+                    <div>المعلومات الشخصية
                         <img :src="s1Logo" alt="" style="width:35px;height:35px;">
                     </div>
                 </a></li>
         </div>
-        <li style="margin-right: 85%;"><a class="" @click.prevent="logout">
+        <li style="margin-right: 85%;  background-color: #08546c;"><a class="" @click.prevent="logout">
                 <div >تسجيل الخروج
                     <img :src="logoutLogo" alt="" style="width:25px;height:25px;">
                 </div>
@@ -65,14 +65,24 @@
 </div>
 <div id="changedata">
     <div id="boxchange">
-        <div class="exit"> <a href="#">
+        <div style="display: flex;">
+            <div style="margin-right:1%"><a href="#studentinfo"><img :src="backLogo" alt="" style="width:32px;height:32px; margin-left:-80px"></a></div>
+        <div  class="exit"> <a href="#">
                 <img :src="cancelLogo" alt="" style="width:30px;height:30px;">
-
             </a></div>
-        <div class="a">
-
+             
+        </div>
+        <div class="studentnewdata">
+<div style="display: flex; border: 3px solid #A0BACC;  border-radius: 10px;">
+     <input type="submit" class="save" name="" value="save">
             <input type="text" placeholder="الاسم الجديد">
+            
+</div>
+<div style="display: flex; border: 3px solid #A0BACC;  border-radius: 10px;">
+    <input type="submit" class="save" name="" value="save">
             <input type="text" placeholder="البريد الالكتروني الجديد">
+</div>
+<div style=" border: 3px solid #A0BACC;  border-radius: 10px;">
             <input type="password" name="password" placeholder="كلمة المرور القديمة" required
                 title="please fill the password field">
             <input type="password" name="password" placeholder="كلمة المرور الجديدة" required
@@ -80,6 +90,7 @@
             <input type="password" name="password" placeholder="تأكيد كلمة المرور" required
                 title="please fill the password field">
             <input type="submit" class="save" name="" value="save">
+</div>
         </div>
 
     </div>
@@ -91,37 +102,43 @@
 
             </a></div>
 
-        <div class="box" method="post" enctype="multipart/form-data">
-            <div id="pic1" style=""> <img :src="imgDB" id="i1" width="100" height="100"> </div>
+    <div>
+            <div id="pic1" style=""> <img id="i1" width="100%" height="100"> </div>
             <div class="card">
 
                 <div class="upload-btn-wrapper">
                     <button class="btn" >Upload your pic</button>
                     <input type="file" @change="uploadPic" ref="personPic">
                 </div>
+                  </div>
+                  <div style=" border: 3px solid #A0BACC;border-radius: 10px;">
+                  <div style=" display: flex;">
+                  <div style="margin-left:15px;"><img :src="nameLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></div><div><h3 style="margin-right:-20%;">محمد يحيى</h3></div>
+                 
+                  </div>
 
-                <table>
-                    <tr>
-                        <th>:اسم المستخدم</th>
-                        <td>{{nameDB}}</td>
-                    </tr>
-                    <tr>
-                        <th>:الصف</th>
-                        <td>{{classDB}}</td>
-                    </tr>
-                    <tr>
-                        <th>:البريد الالكتروني </th>
-                        <td> {{emailDB}}</td>
+                  <div style=" display: flex;">
+                  <div style="margin-left:15px;"><img :src="emailLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></div><div><h3 style="margin-right:-20%;">Mohammadyahya.com</h3></div>
+                  
+                  </div>
 
-                    </tr>
+                  <div style=" display: flex;">
+                  <div style="margin-left:15px;"><img :src="jobLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></div><div><h3 style="margin-right:-20%;"> طالب </h3></div>
+                
+                  </div>
+                  <div style=" display: flex;">
+                  <div style="margin-left:15px;"><img :src="passLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></div><div><h3 style="margin-right:-20%;"> ************ </h3></div>
+                
+                  </div>
 
-                </table>
-                <a href="#changedata" class="changed">change data</a>
+                  
+                   </div>
+                <a href="#changedata" class="changed ">change data <img :src="editLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></a>
 
             </div>
         </div>
     </div>
-</div>
+
 
 </template>
 
@@ -137,6 +154,12 @@ export default {
             s3Logo:require('@/assets/s3.png'),
             s1Logo:require('@/assets/s1.png'),
             s2Logo:require('@/assets/s2.png'),
+            nameLogo:require('@/assets/name.png'),
+            emailLogo:require('@/assets/email.png'),
+             jobLogo:require('@/assets/job.png'),
+             passLogo:require('@/assets/password.png'),
+              editLogo:require('@/assets/edit.png'),
+              backLogo:require('@/assets/back.png'),
             rooms:{},
             nameDB:'',
             classDB:'',
@@ -313,6 +336,8 @@ export default {
 
 <style>
  ul {
+     height: 60px;
+     width: 99%;
         list-style-type: none;
         margin: -1%;
         padding: 1%;
@@ -340,6 +365,7 @@ export default {
         text-align: center;
         padding: 14px 16px;
         text-decoration: none;
+       
     }
 
     li a:hover:not(.active) {
@@ -349,8 +375,6 @@ export default {
     .exit {
 
         margin-left: 104%;
-
-
 
     }
 
@@ -374,7 +398,6 @@ export default {
         padding-bottom: 5%;
 
         border: 3px solid #A0BACC;
-        ;
         border-radius: 10px;
         color: #3498db;
         position: absolute;
@@ -383,7 +406,7 @@ export default {
         bottom: 10px;
         left: 10px;
         margin: auto;
-        background: #022534;
+      background: #022534;
     }
 
     #studentinfo:target {
@@ -391,7 +414,9 @@ export default {
     }
 
     .changed {
-        background: none;
+        width: 130px;
+        height: 50px;
+         background: none;
         display: block;
         margin: 30px auto;
         text-align: center;
@@ -402,14 +427,14 @@ export default {
         border-radius: 24px;
         transition: 0.25s;
         cursor: pointer;
-        width: 100px;
+        text-decoration:none;
     }
 
     .changed:hover {
         background: #2ecc71;
     }
 
-    .save {
+       .save {
         background: none;
         display: block;
         margin: 30px auto;
@@ -437,20 +462,6 @@ export default {
 
 
     }
-
-
-    .box table {
-        border-collapse: collapse;
-        width: 100%;
-    }
-
-    th,
-    td {
-        padding: 3%;
-        text-align: right;
-        border-bottom: 1px solid #ddd;
-    }
-
 
     .upload-btn-wrapper {
         position: relative;
@@ -502,41 +513,7 @@ export default {
         font-size: 14px;
     }
 
-    .close:hover {
-        background: #2ecc71;
-    }
-
-    .save {
-        background: none;
-        display: block;
-        margin: 30px auto;
-        text-align: center;
-        border: 2px solid #2ecc71;
-        padding: 14px 40px;
-        outline: none;
-        color: white;
-        border-radius: 24px;
-        transition: 0.25s;
-        cursor: pointer;
-    }
-
-    .close:hover {
-        background: #2ecc71;
-    }
-
-    .save {
-        background: none;
-        display: block;
-        margin: 30px auto;
-        text-align: center;
-        border: 2px solid #2ecc71;
-        padding: 14px 40px;
-        outline: none;
-        color: white;
-        border-radius: 24px;
-        transition: 0.25s;
-        cursor: pointer;
-    }
+   
 
     #changedata {
         background: #f4f4f480;
@@ -549,7 +526,7 @@ export default {
     }
 
     #boxchange {
-        height: 70%;
+        height: 84%;
         width: 40%;
         text-align: center;
         padding-top: 5px;
@@ -557,7 +534,6 @@ export default {
         padding-right: 5%;
         padding-bottom: 5%;
         border: 3px solid #A0BACC;
-        ;
         border-radius: 10px;
         color: #3498db;
         position: absolute;
@@ -588,11 +564,8 @@ export default {
         width: 100px;
     }
 
-    .close:hover {
-        background: #2ecc71;
-    }
-
-    .a input[type="text"] {
+ 
+    .studentnewdata input[type="text"] {
         border: 0;
         background: none;
         display: block;
@@ -607,30 +580,14 @@ export default {
         transition: 0.25s;
     }
 
-    .a input[type="text"]:focus {
-        width: 80%;
+    .studentnewdata input[type="text"]:focus {
+        
         border-color: #2ecc71;
     }
 
-    .save {
-        background: none;
-        display: block;
-        margin: 30px auto;
-        text-align: center;
-        border: 2px solid #2ecc71;
-        padding: 14px 40px;
-        outline: none;
-        color: white;
-        border-radius: 24px;
-        transition: 0.25s;
-        cursor: pointer;
-    }
 
-    .save:hover {
-        background: #2ecc71;
-    }
 
-    .a input[type="password"] {
+    .studentnewdata input[type="password"] {
         border: 0;
         background: none;
         display: block;
@@ -645,8 +602,8 @@ export default {
         transition: 0.25s;
     }
 
-    .a input[type="password"]:focus {
-        width: 80%;
+    .studentnewdata input[type="password"]:focus {
+        
         border-color: #2ecc71;
     }
 

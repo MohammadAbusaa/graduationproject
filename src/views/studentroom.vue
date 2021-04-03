@@ -1,5 +1,5 @@
 <template>
-    <ul class="nav">
+    <ul class="navclass">
         <li>
             <div>
                 <a>الرئيسية</a>
@@ -260,20 +260,18 @@ export default {
     #handAssignment:target{
         display: block;
     }
-    body{
-        background-color: turquoise;
-    }
-    .nav{
+   
+    .navclass{
         list-style-type: none;
         margin: 1%;
         padding: 1%;
         overflow: hidden;
         background-color: rgb(15, 176, 182);
     }
-    .nav li{
+    .navclass li{
         float: right;
     }
-    .nav li div{
+    .navclass li div{
         display: block;
         color: white;
         text-align: center;
@@ -284,10 +282,10 @@ export default {
     .active{
         background-color: white;
     }
-    .nav li div a:hover:not(.active){
+    .navclass li div a:hover:not(.active){
         background-color: darkgrey;
     }
-    .nav li div a{
+    .navclass li div a{
         margin: 5px;
     }
     .main{
@@ -393,8 +391,12 @@ export default {
     .assignments{
         width: 300px;
     }
+
+
+
     .scroll{
         overflow-y: scroll;
         overflow-x: hidden;
     }
 </style>
+
