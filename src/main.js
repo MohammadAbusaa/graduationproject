@@ -15,6 +15,7 @@ const vxStore=new Vuex.Store({
     userToken:"",
     users:{},
     lastUser:{},
+    user:'',
   },
   mutations:{
     ChTok(state,payload){
@@ -24,6 +25,9 @@ const vxStore=new Vuex.Store({
       state.users=payload.users;
       state.lastUser=state.lastUser[Object.keys(state.users)[Object.keys(state.users).length - 1]];
     },
+    User(state,payload){
+      state.user=payload.user;
+    }
   },
 });
 app.use(vxStore);
@@ -42,9 +46,6 @@ window.Echo=new Echo({
     }
   }
 });
-window.Echo.private('room.2').listen('room.created',e=>{
-  console.log(e);
-})
   app.config.globalProperties.$http = axiosinst;
   app.config.globalProperties.token='hi';
   app.mount("#app");

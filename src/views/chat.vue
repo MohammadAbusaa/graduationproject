@@ -5,7 +5,7 @@
         <div class="msg-header-img">
           <img src="love.jpg">
         </div>
-        <div class="active">
+        <div class="activeMsg">
           <h4>
             name
           </h4>
@@ -15,89 +15,29 @@
         <div class="msg-inbox">
           <div class="chats">
               <div class="msg-page">
-                <div>
-                  <div class="received-chats">
+                <div v-for="msg in activeChat" :key="msg">
+                  <div class="received-chats" v-if="msg.user_id!=user.id">
                     <div class="received-chats-img">
                       <img src="love.jpg">
                     </div>
                     <div class="received-msg">
                       <div class="received-msg-inbox">
                         <p>
-                          hi bitch
+                          {{msg.body}}
                         </p>
                         <span class="time">
-                          time of msg
+                          {{msg.created_at}}
                         </span>
                       </div>
                     </div>
                   </div>
-                  <div class="outgoing-chats">
+                  <div class="outgoing-chats" v-else>
                     <div class="outgoing-chats-msg">
                       <p>
-                        hala
+                        {{msg.body}}
                       </p>
                       <span class="time">
-                        time of msg
-                      </span>
-                    </div>
-                      <div class="outgoing-chats-img">
-                        <img src="abojamal.png">
-                      </div>
-                  </div>
-                </div>
-                <div>
-                  <div class="received-chats">
-                    <div class="received-chats-img">
-                      <img src="love.jpg">
-                    </div>
-                    <div class="received-msg">
-                      <div class="received-msg-inbox">
-                        <p>
-                          hi bitch
-                        </p>
-                        <span class="time">
-                          time of msg
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="outgoing-chats">
-                    <div class="outgoing-chats-msg">
-                      <p>
-                        hala
-                      </p>
-                      <span class="time">
-                        time of msg
-                      </span>
-                    </div>
-                      <div class="outgoing-chats-img">
-                        <img src="abojamal.png">
-                      </div>
-                  </div>
-                </div>
-                <div>
-                  <div class="received-chats">
-                    <div class="received-chats-img">
-                      <img src="love.jpg">
-                    </div>
-                    <div class="received-msg">
-                      <div class="received-msg-inbox">
-                        <p>
-                          hi bitch
-                        </p>
-                        <span class="time">
-                          time of msg
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="outgoing-chats">
-                    <div class="outgoing-chats-msg">
-                      <p>
-                        hala
-                      </p>
-                      <span class="time">
-                        time of msg
+                        {{msg.created_at}}
                       </span>
                     </div>
                       <div class="outgoing-chats-img">
@@ -111,68 +51,124 @@
         <div class="msg-bottom">
           <div class="input-group">
             <span class="input-group-text">
-              <img src="paper-plane.png">
+              <img :src="sendLogo" @click="sendMsg">
             </span>
-            <input type="text" name="userMsg" id="userMsg" class="form-control" placeholder="..اكتب رسالتك هنا">
+            <input v-model="userMsg" type="text" name="userMsg" id="userMsg" class="form-control" placeholder="..اكتب رسالتك هنا">
           </div>
         </div>
       </div>
     </div>
+     <div class="convo-container">
+      <div class="back" @click="this.$router.back(-1)">
+        <a>
+          <img :src="backLogo">
+        </a>
+      </div>
+      
     <div class="conversations-list">
-      <div class="convo">
+      
+      <div class="convo" v-for="convo in users" :key="convo" @click="changeChat(convo[0].id)" >
         <div class="convo-img">
           <img src="love.jpg">
         </div>
         <div class="convo-info">
           <p>
-            user name
+            {{convo[0].name}}
           </p>
           <span>
-            last message sent
+            {{convo[1]}}
           </span>
         </div>
       </div>
-      <div class="convo">
-        <div class="convo-img">
-          <img src="love.jpg">
-        </div>
-        <div class="convo-info">
-          <p>
-            user name
-          </p>
-          <span>
-            last message sent
-          </span>
-        </div>
-      </div>
-      <div class="convo">
-        <div class="convo-img">
-          <img src="love.jpg">
-        </div>
-        <div class="convo-info">
-          <p>
-            user name
-          </p>
-          <span>
-            last message sent
-          </span>
-        </div>
-      </div>
+      
     </div>
+  </div>
   </div>
 </template>
 
 <script>
+import axiosinst from '../axios'
 export default {
+    name:'chat',
+    data() {
+        return {
+            msgs:{},
+            users:[],
+            user:{},
+            activeChat:{},
+            newMsgs:[],
+            userMsg:'',
+            backLogo:require('@/assets/backInv.png'),
+            sendLogo:require('@/assets/paper-plane.png'),
+        }
+    },
+    methods:{
+      changeChat(id){
+        this.activeChat=this.msgs[id];
+        console.info(this.activeChat);
+      },
+      sendMsg(){
+        axiosinst.post('http://localhost:8000/api/storeMsg',{
+          'body':this.userMsg,
+          'rec':this.activeChat[0]['receiver_id'],
+        },{
+                headers:{
+                    'Authorization': 'Bearer '+window.localStorage.getItem('userToken'),
+                }
+            }).then((res)=>{
+                console.info(res);
+                this.userMsg='';
+            }).catch((err)=>{
+                console.error(err);
+                if(err.response){
+                    console.warn(err.response);
+                    if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
+                    console.warn(err.response.status);
+                }
+            });
+      }
+    },
+    mounted() {
+        
+            
+    },
+    created(){
+      axiosinst.post('http://localhost:8000/api/getUserMessages',{},{
+                headers:{
+                    'Authorization': 'Bearer '+window.localStorage.getItem('userToken'),
+                }
+            }).then((res)=>{
+                console.log(res.data);
+                this.msgs=res.data.msgs;
+                this.users=res.data.users;
+                this.user=res.data.user;
+                let x=this;
+                window.Echo.private('chat.'+this.user.id).listen('MessageSent',e=>{
+              x.msgs[e.rec].push(e.msg);
+              this.$store.commit('User',{user:'chat.'+this.user.id});
+              console.warn('event : '+e.msg.body+' with user : '+e.user.name);
+            });  
+                
+            }).catch((err)=>{
+                console.error(err);
+                if(err.response){
+                    console.warn(err.response);
+                    if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
+                    console.warn(err.response.status);
+                }
+            });
+    }
 
 }
 </script>
 
 <style>
-    .container{
+  .container{
     margin: auto;
     font-family: sans-serif;
     letter-spacing: 0.5px;
+    max-width:99%;
+    text-align: start;
   }
   img{
     max-width: 50px;
@@ -193,12 +189,12 @@ export default {
     margin-top: 12px;
     float: left;
   }
-  .active{
+  .activeMsg{
     width: 120px;
     float: left;
     margin-top: 10px;
   }
-  .active h4{
+  .activeMsg h4{
     font-size: 10px;
     margin-left: 10px;
     color: #fff;
@@ -309,14 +305,18 @@ export default {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
   }
+  .convo-container{
+    position: relative;
+    float: right;
+    width: 500px;
+    height: 450px;
+    bottom: 520px;
+  }
   .conversations-list{
     border: 1px solid #777;
     background-color: #afaeae;
     width: 500px;
     height: 450px;
-    float: right;
-    position: relative;
-    bottom: 495px;
     overflow-y: scroll;
     overflow-x: none;
   }
@@ -335,5 +335,8 @@ export default {
   .messages{
     width: 750px;
     height: 500px;
+  }
+  .back{
+    float: right;
   }
 </style>
