@@ -1,4 +1,5 @@
 <template>
+<link  href="https://www.w3schools.com/w3css/4/w3.css">
 <ul>
     <div class="navs" style="">
 
@@ -14,7 +15,6 @@
                     <img :src="logoutLogo" alt="" style="width:25px;height:25px;">
                 </div>
             </a></li>
-
     </div>
 </ul>
 <div class="findclass"
@@ -49,18 +49,46 @@
                 <option value="student">السادس</option>
                 <option value="student">السابع</option>
             </select>
-
+ 
         </div>
     </div>
+           <div class="w3-container w3-hide-small w3-red" >
+      <div style="display: flex;">     
+           
+  <a  class="" style="padding:30px"  >
+    <img :src="classroomLogo" alt="" style="width:50px;height:50px;">
+    <div><h4>اسم الغرفة الصفية  <img :src="privateLogo" alt="" style="width:20px;height:20px;"></h4></div>
+  </a>
+
+ 
+  <a  class="" style="padding:30px"    >
+    <img :src="classroomLogo" alt="" style="width:50px;height:50px;">
+    <div><h4>اسم الغرفة الصفية  <img :src="publicroomLogo" alt="" style="width:20px;height:20px;"></h4></div>
+  </a>
+  
+  </div> 
+</div> 
 </div>
-<div
-    style="height:100%;  width: 25%;  text-align: center; border: 3px solid #A0BACC;  border-radius: 10px;color: #3498db;  position: absolute;  top: 14%; left: 0%; margin: auto; ">
+<div style="height:100%;  width: 29%;  text-align: center; border: 3px solid #A0BACC;  border-radius: 10px;color: #3498db;  position: absolute;  top: 14%; left: 0%; margin: auto; ">
     <div>الصفوف التي اخترتها
         <img :src="s3Logo" alt="" style="width:50px;height:50px;">
     </div>
-    <ul>
-        <li v-for="room in rooms" :key="room"><button @click="showRoom(room.room_id)">{{room.name}}</button></li>
-    </ul>
+        <div class="w3-container w3-hide-small w3-red" >
+      <div style="display: flex;">     
+           
+  <a  class="" style="padding:30px"  >
+    <img :src="classroomLogo" alt="" style="width:50px;height:50px;">
+    <div><h4>اسم الغرفة الصفية  <img :src="privateLogo" alt="" style="width:20px;height:20px;"></h4></div>
+  </a>
+
+ 
+  <a  class="" style="padding:30px"    >
+    <img :src="classroomLogo" alt="" style="width:50px;height:50px;">
+    <div><h4>اسم الغرفة الصفية  <img :src="publicroomLogo" alt="" style="width:20px;height:20px;"></h4></div>
+  </a>
+  </div> 
+</div>
+
 </div>
 <div id="changedata">
     <div id="boxchange">
@@ -132,7 +160,7 @@
 
                   
                    </div>
-                <a href="#changedata" class="changed ">change data <img :src="editLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></a>
+                <a href="#changedata" class="changed " style="margin-top:4px;">change data <img :src="editLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></a>
 
             </div>
         </div>
@@ -159,6 +187,9 @@ export default {
              passLogo:require('@/assets/password.png'),
               editLogo:require('@/assets/edit.png'),
               backLogo:require('@/assets/back.png'),
+              privateLogo:require('@/assets/privateroom.png'),
+               classroomLogo:require('@/assets/classroom.png'),
+                  publicroomLogo:require('@/assets/publicroom.png'),
             rooms:{},
         }
     },
@@ -260,7 +291,7 @@ export default {
     }
 
     #boxs {
-        height: 80%;
+        height: 85%;
         width: 50%;
         text-align: center;
         padding-top: 5px;
@@ -327,6 +358,7 @@ export default {
         height: 25%;
         width: 25%;
         border: black;
+        
         position: center;
         padding: 1%;
         margin: 1% auto;
