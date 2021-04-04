@@ -1,15 +1,16 @@
 <template>
+<link  href="https://www.w3schools.com/w3css/4/w3.css">
   <ul>
     <div class="nav3">
-      <li>
-        <a class="active" @click="showRooms">
+      <li style="margin-right:-56%;  background-color: #08546c;">
+        <a  style="background-color:  #111;" class="active" @click="showRooms">
           <div>
             الصفوف التي انشأتها
             <img :src="calssesLogo" alt="" style="width:50px;height:50px;" />
           </div>
         </a>
       </li>
-      <li>
+      <li style=" margin-right:-35%;  background-color: #08546c;">
         <a href="#newclasses" >
           <div>
             انشاء غرفة صفية
@@ -17,7 +18,7 @@
           </div>
         </a>
       </li>
-      <li>
+      <li style=" margin-right:-14%;  background-color: #08546c;">
         <a href="#teachertinfo" @click="showInfo">
           <div>
             المعلومات الشخصية
@@ -25,18 +26,36 @@
           </div>
         </a>
       </li>
-      <li>
-        <a @click="logoutUser">
-          <div>
-            تسجيل خروج
-          </div>
-        </a>
-      </li>
+       <li style="margin-right: 75%;  background-color: #08546c;"><a class="" @click="logoutUser">
+                <div >تسجيل الخروج
+                    <img :src="logoutLogo" alt="" style="width:25px;height:25px;">
+                </div>
+            </a></li>
     </div>
   </ul>
-  <div class="newclass"></div>
+ 
+<div class="w3-container w3-hide-small w3-red" style=" height: 70%; width: 90%;  position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%); text-align: center; border: 3px solid #022534; border-radius: 10px;">
+      <div style="display: flex;">     
+           
+  <a  class="" style="padding:30px"  >
+    <img :src="classroomLogo" alt="" style="width:50px;height:50px;">
+    <div><h4>اسم الغرفة الصفية  <img :src="privateLogo" alt="" style="width:20px;height:20px;"></h4></div>
+  </a>
+
+ 
+ 
+  <a  class="" style="padding:30px"    >
+    <img :src="classroomLogo" alt="" style="width:50px;height:50px;">
+    <div><h4>اسم الغرفة الصفية  <img :src="publicroomLogo" alt="" style="width:20px;height:20px;"></h4></div>
+  </a>
+  
+  </div> 
+</div>
+
+
+ 
   <div id="newclasses">
-    <div id="box">
+    <div id="boxcreate">
       <div class="exit">
         <a href="#">
           <img :src="cancelLogo" alt="" style="width:30px;height:30px;" />
@@ -66,9 +85,10 @@
         <option value="socialStudies">اجتماعيات</option>
       </select>
       <p>:نوع الغرفة الصفية</p>
-      <input type="radio" id="public" name="roomPub" value="public" @click="onChange($event)" />
+    
+     <input type="radio" id="radio1" name="roomtype" value="public" @click="onChange($event)" />
       <label for="public">عام</label>
-      <input type="radio" id="private" name="roomPri" value="private" @click="onChange($event)"/>
+      <input type="radio" id="radio2" name="roomtype" value="private" @click="onChange($event)" />
       <label for="private">خاص</label>
       <input type="submit" id="private" @click.prevent="sendRoomData" class="save" name="" value="انشاء" />
     </div>
@@ -81,9 +101,18 @@
           <img :src="cancelLogo" alt="" style="width:30px;height:30px;" />
         </a>
       </div>
-      <div class="a">
+      <div class="changeteacherdata">
+       <div style="display: flex; border: 3px solid #A0BACC;  border-radius: 10px;">
+         <input type="submit" @click.prevent="sendNewInfo" class="save" name="" value="save" />
         <input type="text" placeholder="الاسم الجديد" v-model="newName" />
+        
+       </div>
+       <div style="display: flex; border: 3px solid #A0BACC;  border-radius: 10px;">
+         <input type="submit" @click.prevent="sendNewInfo" class="save" name="" value="save" />
         <input type="text" placeholder="البريد الالكتروني الجديد" v-model="newEmail" />
+         
+       </div>
+       <div style=" border: 3px solid #A0BACC;  border-radius: 10px;">
         <input
           type="password"
           name="password"
@@ -108,47 +137,56 @@
           title="please fill the password field"
           v-model="confPass"
         />
+    
         <input type="submit" @click.prevent="sendNewInfo" class="save" name="" value="save" />
+           </div>
       </div>
     </div>
   </div>
   <div id="teachertinfo">
-    <div id="box1">
-      <div class="exit">
-        <a href="#">
-          <img :src="cancelLogo" alt="" style="width:30px;height:30px;" />
-        </a>
-      </div>
+    <div id="boxt">
+        <div class="exit"> <a href="#">
+                <img :src="cancelLogo" alt="" style="width:30px;height:30px;">
 
-      <div class="box">
-        <div id="pic1" style=""><img :src="img" id="i1" width="100%" height="100" /></div>
-        <div class="card">
-          <div class="upload-btn-wrapper">
-            <button class="btn" type="submit" id="submit" name="submit" >
-              تغيير الصورة الشخصية
-            </button>
-            <input type="file" name="personPic" id="personPic" ref="personPic" @change="uploadPic" />
-          </div>
+            </a></div>
 
-          <table>
-            <tr>
-              <th>:اسم المستخدم</th>
-              <td>{{NameDB}}</td>
-            </tr>
-            <tr>
-              <th>:الوظيفة</th>
-              <td>{{JobDB}}</td>
-            </tr>
-            <tr>
-              <th>:البريد الالكتروني</th>
-              <td>{{EmailDB}}</td>
-            </tr>
-          </table>
-          <a href="#changedata" class="changed">change data</a>
+    <div>
+            <div id="pic1" style=""> <img id="i1" width="100%" height="100"> </div>
+            <div class="card">
+
+                <div class="upload-btn-wrapper">
+                    <button class="btn" type="submit" id="submit" name="submit">Upload your pic</button>
+                    <input type="file">
+                </div>
+                  </div>
+                  <div style=" border: 3px solid #A0BACC;border-radius: 10px;">
+                  <div style=" display: flex;">
+                  <div style="margin-left:15px;"><img :src="nameLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></div><div><h3 style="margin-right:-20%;">محمد يحيى</h3></div>
+                 
+                  </div>
+
+                  <div style=" display: flex;">
+                  <div style="margin-left:15px;"><img :src="emailLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></div><div><h3 style="margin-right:-20%;">Mohammadyahya.com</h3></div>
+                  
+                  </div>
+
+                  <div style=" display: flex;">
+                  <div style="margin-left:15px;"><img :src="jobLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></div><div><h3 style="margin-right:-20%;"> طالب </h3></div>
+                
+                  </div>
+                  <div style=" display: flex;">
+                  <div style="margin-left:15px;"><img :src="passLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></div><div><h3 style="margin-right:-20%;"> ************ </h3></div>
+                
+                  </div>
+
+                  
+                   </div>
+                <a href="#changedata" class="changed  " >change data <img :src="editLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></a>
+
+            </div>
         </div>
-      </div>
     </div>
-  </div>
+
 </template>
 
 <script>
@@ -158,10 +196,20 @@ import axiosinst from '../axios';
     data:
       function() {
         return {
+           logoutLogo:require('@/assets/logout.png'),
           addeventLogo:require('@/assets/add-event.png'),
           cancelLogo:require('@/assets/cancel.png'),
           infoLogo:require('@/assets/info.png'),
           calssesLogo:require('@/assets/calsses.png'),
+           nameLogo:require('@/assets/name.png'),
+           emailLogo:require('@/assets/email.png'),
+             jobLogo:require('@/assets/job.png'),
+             passLogo:require('@/assets/password.png'),
+              editLogo:require('@/assets/edit.png'),
+              backLogo:require('@/assets/back.png'),
+               privateLogo:require('@/assets/privateroom.png'),
+               classroomLogo:require('@/assets/classroom.png'),
+               publicroomLogo:require('@/assets/publicroom.png'),
 
           rooms:{},
           EmailDB:"",
@@ -392,11 +440,8 @@ import axiosinst from '../axios';
 
 <style>
 body{
-
    background:#f6f9fa ;
 }
-
-  
   ul {
     list-style-type: none;
     margin: -1%;
@@ -414,7 +459,6 @@ body{
 
   li a {
     display: block;
-    color: white;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
@@ -422,10 +466,6 @@ body{
 
   li a:hover:not(.active) {
     background-color: #111;
-  }
-
-  .active {
-    background-color: #022534;
   }
   .exit {
     margin-left: 104%;
@@ -439,29 +479,29 @@ body{
     left: 0;
     display: none;
   }
-  #box1 {
-    height: 80%;
-    width: 50%;
-    text-align: center;
-    padding-top: 5px;
-    padding-left: 5%;
-    padding-right: 5%;
-    padding-bottom: 5%;
-
-    border: 3px solid #a0bacc;
-    border-radius: 10px;
-    color: #3498db;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    bottom: 10px;
-    left: 10px;
-    margin: auto;
-    background: #022534;
-  }
-  #teachertinfo:target {
+    #teachertinfo:target {
     display: block;
   }
+  #boxt {
+         height: 85%;
+        width: 50%;
+        text-align: center;
+        padding-top: 5px;
+        padding-left: 5%;
+        padding-right: 5%;
+        padding-bottom: 5%;
+        border: 3px solid #A0BACC;
+        border-radius: 10px;
+        color: #3498db;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        bottom: 10px;
+        left: 10px;
+        margin: auto;
+      background: #022534;
+  }
+
   .changed {
     background: none;
     display: block;
@@ -504,24 +544,7 @@ body{
     padding: 1%;
     margin: 1% auto;
   }
-
-  .box table {
-    border-collapse: collapse;
-    width: 100%;
-  }
-
-  th,
-  td {
-    padding: 3%;
-    text-align: right;
-    border-bottom: 1px solid #ddd;
-  }
-
-  .upload-btn-wrapper {
-    position: relative;
-    overflow: hidden;
-    display: inline-block;
-  }
+ 
 
   .btn {
     border: 2px solid gray;
@@ -540,8 +563,13 @@ body{
     top: 0;
     opacity: 0;
   }
+   .upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+  }
 
-  .box input[type="button"] {
+  .boxcreate input[type="button"] {
     border: 0;
     background: none;
     display: block;
@@ -555,7 +583,7 @@ body{
     transition: 0.25s;
     cursor: pointer;
   }
-  .box input[type="button"]:hover {
+  .boxcreate input[type="button"]:hover {
     background: #2ecc71;
   }
   .options {
@@ -573,55 +601,9 @@ body{
     left: 0;
     display: none;
   }
-  #box {
-    height: 80%;
-    width: 50%;
-    text-align: center;
-    padding: 50px;
-    border: 3px solid #a0bacc;
-    border-radius: 10px;
-    
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    bottom: 10px;
-    left: 10px;
-    margin: auto;
-    background: #022534;
-  }
+
   #creatnewclass:target {
     display: block;
-  }
-  .close {
-    background: none;
-    display: block;
-    margin: 30px auto;
-    text-align: center;
-    border: 2px solid #2ecc71;
-    padding: 14px 40px;
-    outline: none;
-    color: white;
-    border-radius: 24px;
-    transition: 0.25s;
-    cursor: pointer;
-    width: 100px;
-  }
-  .close:hover {
-    background: #2ecc71;
-  }
-
-  .save {
-    background: none;
-    display: block;
-    margin: 30px auto;
-    text-align: center;
-    border: 2px solid #2ecc71;
-    padding: 14px 40px;
-    outline: none;
-    color: white;
-    border-radius: 24px;
-    transition: 0.25s;
-    cursor: pointer;
   }
   #newclasses {
     background: #f4f4f480;
@@ -632,160 +614,11 @@ body{
     left: 0;
     display: none;
   }
-  #box {
-    height: 80%;
-    width: 50%;
-    text-align: center;
-    padding-top: 5px;
-    padding-left: 5%;
-    padding-right: 5%;
-    padding-bottom: 5%;
-    border: 3px solid #a0bacc;
-    border-radius: 10px;
-    color: #3498db;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    bottom: 10px;
-    left: 10px;
-    margin: auto;
-    background: #022534;
-  }
+ 
   #newclasses:target {
     display: block;
   }
-  .close {
-    background: none;
-    display: block;
-    margin: 30px auto;
-    text-align: center;
-    border: 2px solid #2ecc71;
-    padding: 14px 40px;
-    outline: none;
-    color: white;
-    border-radius: 24px;
-    transition: 0.25s;
-    cursor: pointer;
-    width: 100px;
-  }
-  .close:hover {
-    background: #2ecc71;
-  }
 
-  .save {
-    background: none;
-    display: block;
-    margin: 30px auto;
-    text-align: center;
-    border: 2px solid #2ecc71;
-    padding: 14px 40px;
-    outline: none;
-    color: white;
-    border-radius: 24px;
-    transition: 0.25s;
-    cursor: pointer;
-  }
-
-  #changedata {
-    background: #f4f4f480;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: none;
-  }
-  #boxchange {
-    height: 70%;
-    width: 40%;
-    text-align: center;
-    padding-top: 5px;
-    padding-left: 5%;
-    padding-right: 5%;
-    padding-bottom: 5%;
-    border: 3px solid #a0bacc;
-    border-radius: 10px;
-    color: #3498db;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    bottom: 10px;
-    left: 10px;
-    margin: auto;
-    background: #022534;
-  }
-  #changedata:target {
-    display: block;
-  }
-  .close {
-    background: none;
-    display: block;
-    margin: 30px auto;
-    text-align: center;
-    border: 2px solid #2ecc71;
-    padding: 14px 40px;
-    outline: none;
-    color: white;
-    border-radius: 24px;
-    transition: 0.25s;
-    cursor: pointer;
-    width: 100px;
-  }
-  .close:hover {
-    background: #2ecc71;
-  }
-  .a input[type="text"] {
-    border: 0;
-    background: none;
-    display: block;
-    margin: 30px auto;
-    text-align: center;
-    border: 2px solid #3498db;
-    padding: 14px 10px;
-    width: 50%;
-    outline: none;
-    color: white;
-    border-radius: 24px;
-    transition: 0.25s;
-  }
-  .a input[type="text"]:focus {
-    width: 80%;
-    border-color: #2ecc71;
-  }
-  .save {
-    background: none;
-    display: block;
-    margin: 30px auto;
-    text-align: center;
-    border: 2px solid #2ecc71;
-    padding: 14px 40px;
-    outline: none;
-    color: white;
-    border-radius: 24px;
-    transition: 0.25s;
-    cursor: pointer;
-  }
-  .save:hover {
-    background: #2ecc71;
-  }
-  .a input[type="password"] {
-    border: 0;
-    background: none;
-    display: block;
-    margin: 30px auto;
-    text-align: center;
-    border: 2px solid #3498db;
-    padding: 14px 10px;
-    width: 50%;
-    outline: none;
-    color: white;
-    border-radius: 24px;
-    transition: 0.25s;
-  }
-  .a input[type="password"]:focus {
-    width: 80%;
-    border-color: #2ecc71;
-  }
   .dropbtn {
     border: 0;
     margin-left: 40%;
@@ -804,12 +637,10 @@ body{
   .newclass {
     height: 70%;
     width: 50%;
-
     position: absolute;
     top: 55%;
     left: 50%;
     transform: translate(-50%, -50%);
-
     text-align: center;
     border: 3px solid #022534;
     border-radius: 10px;
@@ -833,232 +664,15 @@ body{
     border-color: #2ecc71;
   }
   ul {
-    list-style-type: none;
-    margin: -1%;
-    padding: 1%;
-    overflow: hidden;
-    background-color: #08546c;
+   height: 60px;
+     width: 99%;
+        list-style-type: none;
+        margin: -1%;
+        padding: 1%;
+        overflow: hidden;
+        background-color: #08546c;
   }
-  .nav3 {
-    margin-right: 35%;
-  }
-
-  li {
-    float: right;
-  }
-
-
-  li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-  }
-
-  li a:hover:not(.active) {
-    background-color: #111;
-  }
-
-  .active {
-    background-color: #022534;
-  }
-  .exit {
-    margin-left: 104%;
-  }
-  #teachertinfo {
-    background: #f4f4f480;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: none;
-  }
-  #box1 {
-    height: 80%;
-    width: 50%;
-    text-align: center;
-    padding-top: 5px;
-    padding-left: 5%;
-    padding-right: 5%;
-    padding-bottom: 5%;
-
-    border: 3px solid #a0bacc;
-    border-radius: 10px;
-    color: #3498db;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    bottom: 10px;
-    left: 10px;
-    margin: auto;
-    background: #022534;
-  }
-  #teachertinfo:target {
-    display: block;
-  }
-  .changed {
-    background: none;
-    display: block;
-    margin: 30px auto;
-    text-align: center;
-    border: 2px solid #2ecc71;
-    padding: 14px 40px;
-    outline: none;
-    color: white;
-    border-radius: 24px;
-    transition: 0.25s;
-    cursor: pointer;
-    width: 100px;
-  }
-  .changed:hover {
-    background: #2ecc71;
-  }
-
-  .save {
-    background: none;
-    display: block;
-    margin: 30px auto;
-    text-align: center;
-    border: 2px solid #2ecc71;
-    padding: 14px 40px;
-    outline: none;
-    color: white;
-    border-radius: 24px;
-    transition: 0.25s;
-    cursor: pointer;
-  }
-  .save:hover {
-    background: #2ecc71;
-  }
-  #pic1 {
-    height: 25%;
-    width: 25%;
-    border: black;
-    position: center;
-    padding: 1%;
-    margin: 1% auto;
-  }
-
-  .box table {
-    border-collapse: collapse;
-    width: 100%;
-  }
-
-  th,
-  td {
-    padding: 3%;
-    text-align: right;
-    border-bottom: 1px solid #ddd;
-  }
-
-  .upload-btn-wrapper {
-    position: relative;
-    overflow: hidden;
-    display: inline-block;
-  }
-
-  .btn {
-    border: 2px solid gray;
-    color: gray;
-    background-color: white;
-    padding: 8px 20px;
-    border-radius: 8px;
-    font-size: 15px;
-    font-weight: bold;
-  }
-
-  .upload-btn-wrapper input[type="file"] {
-    font-size: 100px;
-    position: absolute;
-    left: 0;
-    top: 0;
-    opacity: 0;
-  }
-
-  .box input[type="button"] {
-    border: 0;
-    background: none;
-    display: block;
-    margin: 11px auto;
-    text-align: center;
-    border: 2px solid #2ecc71;
-    padding: 14px 40px;
-    outline: none;
-    color: #34495e;
-    border-radius: 24px;
-    transition: 0.25s;
-    cursor: pointer;
-  }
-  .box input[type="button"]:hover {
-    background: #2ecc71;
-  }
-  .options {
-    margin-top: 15px;
-    color: #f4f4f480;
-    overflow: hidden;
-    font-size: 14px;
-  }
-  #creatnewclass {
-    background: #f4f4f480;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: none;
-  }
-  #box {
-    height: 80%;
-    width: 50%;
-    text-align: center;
-    padding: 50px;
-    border: 3px solid #a0bacc;
-    border-radius: 10px;
-    color: #3498db;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    bottom: 10px;
-    left: 10px;
-    margin: auto;
-    background: #022534;
-  }
-  #creatnewclass:target {
-    display: block;
-  }
-  .close {
-    background: none;
-    display: block;
-    margin: 30px auto;
-    text-align: center;
-    border: 2px solid #2ecc71;
-    padding: 14px 40px;
-    outline: none;
-    color: white;
-    border-radius: 24px;
-    transition: 0.25s;
-    cursor: pointer;
-    width: 100px;
-  }
-  .close:hover {
-    background: #2ecc71;
-  }
-
-  .save {
-    background: none;
-    display: block;
-    margin: 30px auto;
-    text-align: center;
-    border: 2px solid #2ecc71;
-    padding: 14px 40px;
-    outline: none;
-    color: white;
-    border-radius: 24px;
-    transition: 0.25s;
-    cursor: pointer;
-  }
+ 
   #myclasses {
     background: #f4f4f480;
     width: 100%;
@@ -1068,7 +682,7 @@ body{
     left: 0;
     display: none;
   }
-  #box {
+  #boxcreate {
     height: 80%;
     width: 50%;
     text-align: center;
@@ -1085,43 +699,11 @@ body{
     bottom: 10px;
     left: 10px;
     margin: auto;
-    background: #022534;
+    background: #a0bacc;
   }
   #myclasses:target {
     display: block;
   }
-  .close {
-    background: none;
-    display: block;
-    margin: 30px auto;
-    text-align: center;
-    border: 2px solid #2ecc71;
-    padding: 14px 40px;
-    outline: none;
-    color: white;
-    border-radius: 24px;
-    transition: 0.25s;
-    cursor: pointer;
-    width: 100px;
-  }
-  .close:hover {
-    background: #2ecc71;
-  }
-
-  .save {
-    background: none;
-    display: block;
-    margin: 30px auto;
-    text-align: center;
-    border: 2px solid #2ecc71;
-    padding: 14px 40px;
-    outline: none;
-    color: white;
-    border-radius: 24px;
-    transition: 0.25s;
-    cursor: pointer;
-  }
-
   #changedata {
     background: #f4f4f480;
     width: 100%;
@@ -1153,94 +735,47 @@ body{
   #changedata:target {
     display: block;
   }
-  .close {
-    background: none;
-    display: block;
-    margin: 30px auto;
-    text-align: center;
-    border: 2px solid #2ecc71;
-    padding: 14px 40px;
-    outline: none;
-    color: white;
-    border-radius: 24px;
-    transition: 0.25s;
-    cursor: pointer;
-    width: 100px;
-  }
-  .close:hover {
-    background: #2ecc71;
-  }
-  .a input[type="text"] {
-    border: 0;
-    background: none;
-    display: block;
-    margin: 30px auto;
-    text-align: center;
-    border: 2px solid #3498db;
-    padding: 14px 10px;
-    width: 50%;
-    outline: none;
-    color: white;
-    border-radius: 24px;
-    transition: 0.25s;
-  }
-  .a input[type="text"]:focus {
-    width: 80%;
-    border-color: #2ecc71;
-  }
-  .save {
-    background: none;
-    display: block;
-    margin: 30px auto;
-    text-align: center;
-    border: 2px solid #2ecc71;
-    padding: 14px 40px;
-    outline: none;
-    color: white;
-    border-radius: 24px;
-    transition: 0.25s;
-    cursor: pointer;
-  }
-  .save:hover {
-    background: #2ecc71;
-  }
-  .a input[type="password"] {
-    border: 0;
-    background: none;
-    display: block;
-    margin: 30px auto;
-    text-align: center;
-    border: 2px solid #3498db;
-    padding: 14px 10px;
-    width: 50%;
-    outline: none;
-    color: white;
-    border-radius: 24px;
-    transition: 0.25s;
-  }
-  .a input[type="password"]:focus {
-    width: 80%;
-    border-color: #2ecc71;
-  }
-  .dropbtn {
-    border: 0;
-    margin-left: 40%;
-    background: none;
-    display: block;
 
+  .changeteacherdata input[type="text"] {
+    border: 0;
+    background: none;
+    display: block;
+    margin: 30px auto;
     text-align: center;
     border: 2px solid #3498db;
     padding: 14px 10px;
-    width: 20%;
+    width: 50%;
     outline: none;
-    color: #22202080;
+    color: white;
     border-radius: 24px;
     transition: 0.25s;
   }
+  .changeteacherdata input[type="text"]:focus {
+  
+    border-color: #2ecc71;
+  }
+  .changeteacherdata input[type="password"] {
+    border: 0;
+    background: none;
+    display: block;
+    margin: 30px auto;
+    text-align: center;
+    border: 2px solid #3498db;
+    padding: 14px 10px;
+    width: 50%;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.25s;
+  }
+  .changeteacherdata input[type="password"]:focus {
+
+    border-color: #2ecc71;
+  }
+  
   .newclass {
     height: 70%;
     width: 50%;
-
     position: absolute;
     top: 55%;
     left: 50%;
@@ -1249,23 +784,5 @@ body{
     text-align: center;
     border: 3px solid #022534;
     border-radius: 10px;
-  }
-  .roomname input[type="text"] {
-    border: 0;
-    background: none;
-    display: block;
-    margin: 30px auto;
-    text-align: center;
-    border: 2px solid #3498db;
-    padding: 14px 10px;
-    width: 30%;
-    outline: none;
-    color: white;
-    border-radius: 24px;
-    transition: 0.25s;
-  }
-  .roomname input[type="text"]:focus {
-    width: 50%;
-    border-color: #2ecc71;
   }
 </style>

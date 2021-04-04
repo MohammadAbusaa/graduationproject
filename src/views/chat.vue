@@ -172,7 +172,7 @@ export default {
   }
   img{
     max-width: 50px;
-    border-radius: 50%;
+    
   }
   .msg-header{
     border: 1px solid #ccc;
