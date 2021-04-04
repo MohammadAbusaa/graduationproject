@@ -98,6 +98,7 @@
 </template>
 
 <script>
+import Pusher from 'pusher-js';
 import axiosinst from '../axios';
 
 export default {
@@ -169,7 +170,7 @@ export default {
                     'Authorization': 'Bearer '+window.localStorage.getItem('userToken'),//this.$store.state.userToken,
                 }
         }).then((res)=>{
-            this.assignments=res.data.assignments;
+            this.assignments=res.data;
             console.info(res.data.assignments);
         }).catch((err)=>{
             console.error(err);
@@ -180,6 +181,11 @@ export default {
         console.warn('event : '+e);
         this.posts.push(e.post);
         });
+        var pusher=new Pusher('1b6878a214bf043139cd',{cluster:'eu'});
+        pusher.subscribe('room.'+window.localStorage.getItem('roomIndex')).bind('room.created',e=>{
+            alert('GOT IT'+e);
+        });
+
     },
 
 }

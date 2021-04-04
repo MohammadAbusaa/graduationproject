@@ -20,37 +20,38 @@
 <div class="findclass"
     style="  height:100%;  width: 70%;  text-align: center;  border: 3px solid #A0BACC;border-radius: 10px; color: #3498db;  position: absolute;top: 14%;right: 0%;  margin: auto;">
 
-    <div>الدخول الي الصف
+    <div>الدخول الى الصف
         <img :src="s2Logo" alt="" style="width:50px;height:50px;">
     </div>
 
-    <input type="text" placeholder="البحث من خلال اسم الصف" style=" padding:10px;  ">
+    <input type="text" placeholder="البحث من خلال اسم الصف" style=" padding:10px;  " v-model="roomName" @change="searchRooms">
     <div style=" margin-top:-4%; width: 100%;  display: flex;">
         <div style=" flex-grow: 3; margin-right: 10%;">
             <label style="margin-right:4%;">البحث حسب المادة</label>
-            <select class="dropbtn" name="usertype" id="usertypes" style="width:50% ;  margin-left: 20%;  ">
-                <option value="teacher">علوم</option>
-                <option value="student">رياضيات</option>
-                <option value="teacher">اللغة العربية</option>
-                <option value="student">اللغة الانجليزية</option>
-                <option value="teacher">التربية الاسلامية</option>
-                <option value="student">اجتماعيات</option>
+            <select class="dropbtn" name="usertype" id="usertypes" style="width:50% ;  margin-left: 20%;  " v-model="roomSubject" @change="searchRooms">
+                <option value="science">علوم</option>
+                <option value="maths">رياضيات</option>
+                <option value="arabic">اللغة العربية</option>
+                <option value="english">اللغة الانجليزية</option>
+                <option value="islamicCulture">التربية الاسلامية</option>
+                <option value="socialStudies">اجتماعيات</option>
 
             </select>
         </div>
         <div style=" flex-grow: 3;   ">
             <label style="margin-right:-7%;">البحث حسب الصف</label>
-            <select class="dropbtn" name="usertype" id="usertypes " style="width:50%  ;  margin-left: 30%;">
-                <option value="teacher">الأول</option>
-                <option value="student">الثاني</option>
-                <option value="student">الثالث</option>
-                <option value="student">الرابع</option>
-                <option value="student">الخامس</option>
-                <option value="student">السادس</option>
-                <option value="student">السابع</option>
+            <select class="dropbtn" name="usertype" id="usertypes " style="width:50%  ;  margin-left: 30%;" v-model="roomClass" @change="searchRooms">
+                <option value="one">الأول</option>
+                <option value="two">الثاني</option>
+                <option value="three">الثالث</option>
+                <option value="four">الرابع</option>
+                <option value="five">الخامس</option>
+                <option value="six">السادس</option>
+                <option value="seven">السابع</option>
             </select>
 
         </div>
+        <button v-for="DBroom in roomsDB" :key="DBroom" @click="registerStudent(DBroom.id)">{{DBroom.name}}</button>
     </div>
 </div>
 <div
@@ -106,8 +107,8 @@
             <div class="card">
 
                 <div class="upload-btn-wrapper">
-                    <button class="btn" type="submit" id="submit" name="submit">Upload your pic</button>
-                    <input type="file">
+                    <button class="btn" >Upload your pic</button>
+                    <input type="file" @change="uploadPic" ref="personPic">
                 </div>
                   </div>
                   <div style=" border: 3px solid #A0BACC;border-radius: 10px;">
@@ -160,6 +161,17 @@ export default {
               editLogo:require('@/assets/edit.png'),
               backLogo:require('@/assets/back.png'),
             rooms:{},
+            nameDB:'',
+            classDB:'',
+            emailDB:'',
+            roomName:'',
+            roomClass:'',
+            roomSubject:'',
+            roomsDB:{},
+            pic:'',
+            errs:[],
+            allowedTypes:['image/png','image/jpg','image/jpeg'],
+            imgDB:'',
         }
     },
     methods: {
@@ -170,6 +182,7 @@ export default {
                 }
             }).then((res)=>{
                 console.info(res);
+                window.localStorage.removeItem('userToken');
                 this.$router.push('/');
             }).catch((err)=>{
                 console.error(err);
@@ -183,7 +196,123 @@ export default {
         showRoom(id){
             window.localStorage.setItem('roomIndex',''+id);
             this.$router.push('/studentroom');
+        },
+        getInfo(){
+            axiosinst.post('http://localhost:8000/api/showSInfo',{},{
+                headers:{
+                    'Authorization': 'Bearer '+window.localStorage.getItem('userToken'),
+                }
+            }).then((res)=>{
+                console.info(res);
+                this.nameDB=res.data.name;
+                this.emailDB=res.data.email;
+                this.classDB=res.data.class;
+                //this.imgDB=res.data.image;
+                axiosinst.post('http://localhost:8000/api/showProfilePic',{},{
+                headers:{
+                    'Authorization': 'Bearer '+window.localStorage.getItem('userToken'),
+                }
+            }).then((res)=>{
+                console.info(res);
+                console.info(res.headers['content-type'].split('/')[1]);
+                this.imgDB='data:image/'+res.headers['content-type'].split('/')[1]+';base64,' + btoa(
+                        new Uint8Array(this.imgDB)
+                        .reduce((data, byte) => data + String.fromCharCode(byte), '')
+                    );
+            }).catch((err)=>{
+                console.error(err);
+                if(err.response){
+                    console.warn(err.response);
+                    if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
+                    console.warn(err.response.status);
+                }
+            });
+            }).catch((err)=>{
+                console.error(err);
+                if(err.response){
+                    console.warn(err.response);
+                    if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
+                    console.warn(err.response.status);
+                }
+            });
+        },
+        searchRooms(){
+            axiosinst.post('http://localhost:8000/api/searchRooms',{
+                'name':this.roomName,
+                'class':this.roomClass,
+                'subject':this.roomSubject,
+            },{
+                headers:{
+                    'Authorization': 'Bearer '+window.localStorage.getItem('userToken'),
+                }
+            }).then((res)=>{
+                console.info(res);
+                this.roomsDB=res.data;
+            }).catch((err)=>{
+                console.error(err);
+                if(err.response){
+                    console.warn(err.response);
+                    if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
+                    console.warn(err.response.status);
+                }
+            });
+        },
+        uploadPic(){
+        this.errs.length=0;
+        this.pic=this.$refs.personPic.files[0];
+        if(!this.allowedTypes.includes(this.pic.type)){
+          console.warn('not image!');
+          this.errs.push('لم تقم باختيار صورة');
+          return;
         }
+        console.log(this.pic);
+        let size=this.pic.size/1024/1024;
+        if(size>2){
+          console.warn('size is larger than 2! \t'+this.pic.size);
+          this.errs.push('حجم الصورة اكبر من المسموح');
+        }
+        let o=document.getElementById('i1');
+        o.src=URL.createObjectURL(this.pic);
+        o.onload=()=>{URL.revokeObjectURL(o.src);}
+        //this.img=URL.createObjectURL(this.pic);
+        let fd=new FormData();
+        fd.append('image',this.pic);
+        axiosinst.post('http://localhost:8000/api/changeProfilePic',fd,{
+        headers:{
+                  'Authorization': 'Bearer '+window.localStorage.getItem('userToken'),
+                  'Content-Type': 'multipart/form-data',
+              }
+      }).then((res)=>{
+        console.info(res.data);
+        this.pic='';
+      }).catch((err)=>{
+        console.error(err);
+        if(err.response){
+          console.warn(err.response);
+          if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
+          console.warn(err.response.status);
+        }
+      });
+      },
+      registerStudent(id){
+          axiosinst.post('http://localhost:8000/api/registerStudent/'+id,{},{
+                headers:{
+                    'Authorization': 'Bearer '+window.localStorage.getItem('userToken'),
+                }
+            }).then((res)=>{
+                console.info(res);
+                this.$store.commit('roomUsers',{users:res.data});
+                this.$router.go(0);
+            }).catch((err)=>{
+                console.error(err);
+                if(err.response){
+                    console.warn(err.response);
+                    if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
+                    console.warn(err.response.status);
+                }
+            });
+      }
+
     },
     mounted() {
         axiosinst.post('http://localhost:8000/api/getStudentRooms',{},{
