@@ -15,6 +15,18 @@
                     <img :src="logoutLogo" alt="" style="width:25px;height:25px;">
                 </div>
             </a></li>
+            <li style="position:relative;bottom:90px;  background-color: #08546c;">
+                <a @click="this.$router.push('http://localhost:8080/chat')">
+                
+                    <div> 
+                         المحادثات
+                        <img :src="chatIcon" alt="" >
+                       
+                    </div>
+                    
+                </a>
+            </li>
+
     </div>
 </ul>
 <div class="findclass"
@@ -131,7 +143,7 @@
             </a></div>
 
     <div>
-            <div id="pic1" style=""> <img id="i1" width="100%" height="100"> </div>
+            <div id="pic1" style="width=100px; height=100px;"> <img id="i1" > </div>
             <div class="card">
 
                 <div class="upload-btn-wrapper">
@@ -191,6 +203,7 @@ export default {
               privateLogo:require('@/assets/privateroom.png'),
                classroomLogo:require('@/assets/classroom.png'),
                   publicroomLogo:require('@/assets/publicroom.png'),
+            chatIcon:require('@/assets/chatIcon.jpg'),
             rooms:{},
             nameDB:'',
             classDB:'',
@@ -214,6 +227,7 @@ export default {
             }).then((res)=>{
                 console.info(res);
                 window.localStorage.removeItem('userToken');
+                window.Echo.leaveChannel(this.$store.state.user);
                 this.$router.push('/');
             }).catch((err)=>{
                 console.error(err);

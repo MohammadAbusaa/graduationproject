@@ -7,6 +7,7 @@ import dashboard from "../views/dashboard.vue";
 import teacher from "../views/teacher.vue";
 import sturoom from "../views/studentroom.vue";
 import student from "../views/student.vue";
+import chat from "../views/chat.vue";
 const routes = [
   {
     path: "/",
@@ -48,6 +49,11 @@ const routes = [
     path:"/student",
     name:"student",
     component:student,
+  },
+  {
+    path:"/chat",
+    name:"chat",
+    component:chat,
   },
 ];
 
