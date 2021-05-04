@@ -36,19 +36,19 @@
  
 <div class="w3-container w3-hide-small w3-red" style=" height: 70%; width: 90%;  position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%); text-align: center; border: 3px solid #022534; border-radius: 10px;">
       <div style="display: flex;">     
-           
-  <a  class="" style="padding:30px"  >
+<div v-for="room in teacherRooms" :key="room">
+  <a @click="gotoRoom(room.id)"  class="" style="padding:30px"  v-if="!room.type">
     <img :src="classroomLogo" alt="" style="width:50px;height:50px;">
-    <div><h4>اسم الغرفة الصفية  <img :src="privateLogo" alt="" style="width:20px;height:20px;"></h4></div>
+    <div><h4>{{room.name}} <img :src="privateLogo" alt="" style="width:20px;height:20px;"></h4></div>
   </a>
 
  
  
-  <a  class="" style="padding:30px"    >
+  <a @click="gotoRoom(room.id)"  class="" style="padding:30px"  v-else  >
     <img :src="classroomLogo" alt="" style="width:50px;height:50px;">
-    <div><h4>اسم الغرفة الصفية  <img :src="publicroomLogo" alt="" style="width:20px;height:20px;"></h4></div>
+    <div><h4>{{room.name}} <img :src="publicroomLogo" alt="" style="width:20px;height:20px;"></h4></div>
   </a>
-  
+</div>
   </div> 
 </div>
 
@@ -103,12 +103,12 @@
       </div>
       <div class="changeteacherdata">
        <div style="display: flex; border: 3px solid #A0BACC;  border-radius: 10px;">
-         <input type="submit" @click.prevent="sendNewInfo" class="save" name="" value="save" />
+         <input type="submit" @click.prevent="sendNewName" class="save" name="" value="save" :disabled="newName.length==0" />
         <input type="text" placeholder="الاسم الجديد" v-model="newName" />
         
        </div>
        <div style="display: flex; border: 3px solid #A0BACC;  border-radius: 10px;">
-         <input type="submit" @click.prevent="sendNewInfo" class="save" name="" value="save" />
+         <input type="submit" @click.prevent="sendNewEmail" class="save" name="" value="save" :disabled="newEmail.length==0" />
         <input type="text" placeholder="البريد الالكتروني الجديد" v-model="newEmail" />
          
        </div>
@@ -138,7 +138,7 @@
           v-model="confPass"
         />
     
-        <input type="submit" @click.prevent="sendNewInfo" class="save" name="" value="save" />
+        <input type="submit" :disabled="(oldPass.length==0)&&(newPass.length==0)&&(confPass==0)" @click.prevent="sendNewPass" class="save" name="" value="save" />
            </div>
       </div>
     </div>
@@ -161,17 +161,17 @@
                   </div>
                   <div style=" border: 3px solid #A0BACC;border-radius: 10px;">
                   <div style=" display: flex;">
-                  <div style="margin-left:15px;"><img :src="nameLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></div><div><h3 style="margin-right:-20%;">محمد يحيى</h3></div>
+                  <div style="margin-left:15px;"><img :src="nameLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></div><div><h3 style="margin-right:-20%;">{{NameDB}}</h3></div>
                  
                   </div>
 
                   <div style=" display: flex;">
-                  <div style="margin-left:15px;"><img :src="emailLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></div><div><h3 style="margin-right:-20%;">Mohammadyahya.com</h3></div>
+                  <div style="margin-left:15px;"><img :src="emailLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></div><div><h3 style="margin-right:-20%;">{{EmailDB}}</h3></div>
                   
                   </div>
 
                   <div style=" display: flex;">
-                  <div style="margin-left:15px;"><img :src="jobLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></div><div><h3 style="margin-right:-20%;"> طالب </h3></div>
+                  <div style="margin-left:15px;"><img :src="jobLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></div><div><h3 style="margin-right:-20%;"> {{JobDB}} </h3></div>
                 
                   </div>
                   <div style=" display: flex;">
@@ -226,12 +226,31 @@ import axiosinst from '../axios';
           RoomClass:"",
           roomType:"",
           errs:[],
+          teacherRooms:{},
           regex:/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
           pic:'',
           allowedTypes:['image/png','image/jpg','image/jpeg'],
           img:'',
 
         };
+      },
+      mounted(){
+        axiosinst.post('http://localhost:8000/api/getTRooms',{},{
+                headers:{
+                    'Authorization': 'Bearer '+window.localStorage.getItem('userToken'),
+                }
+            }).then((res)=>{
+                console.log(res.data);
+                this.$data.teacherRooms=res.data;
+                
+            }).catch((err)=>{
+                console.error(err);
+                if(err.response){
+                    console.warn(err.response);
+                    if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
+                    console.warn(err.response.status);
+                }
+            });
       },
     methods: {
       onChange(event){
@@ -272,56 +291,59 @@ import axiosinst from '../axios';
           }
         });
       },
-      sendNewInfo(){
-        this.errs.length=0;
-        if(this.confPass!==this.newPass){
-          this.errs.push("كلمة السر الجديدة لا تتطابق");
-        }
-        if(!this.regex.test(this.newEmail)){
-          this.errs.push("البريد الالكتروني غير صحيح");
-        }
-        if(this.newName==""){
-          this.errs.push("لم تقم بادخال اسمك");
-        }
-        if(this.errs.length)return;
-        axiosinst.post('http://localhost:8000/api/checkOldPass',{
-          'password':this.oldPass,
-        },{
-          headers:{
-                    'Authorization': 'Bearer '+window.localStorage.getItem('userToken'),
-                }
-        }).then((res)=>{
-          console.info(res.data);
-          if(!(res.data.flag))this.errs.push("كلمة السر القديمة غير صحيحة");
-        }).catch((err)=>{
-          console.error(err);
-          if(err.response){
-            console.warn(err.response);
-            if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
-            console.warn(err.response.status);
-          }
-        });
-        if(this.errs.length)return;
-
-        axiosinst.post('http://localhost:8000/api/updateInfo',{
+      sendNewName(){
+        axiosinst.put('http://localhost:8000/api/sendNewName',{
           'name':this.newName,
-          'email':this.newEmail,
-          'password':this.newPass,
         },{
-          headers:{
+                headers:{
                     'Authorization': 'Bearer '+window.localStorage.getItem('userToken'),
                 }
-        }).then((res)=>{
-          this.$router.push(res.data.link);
-          console.info(res.data);
-        }).catch((err)=>{
-          console.error(err);
-          if(err.response){
-              console.warn(err.response);
-              if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
-              console.warn(err.response.status);
-          }
-        });
+            }).then((res)=>{
+                console.log(res.data);                
+            }).catch((err)=>{
+                console.error(err);
+                if(err.response){
+                    console.warn(err.response);
+                    if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
+                    console.warn(err.response.status);
+                }
+            });
+      },
+      sendNewEmail(){
+        axiosinst.put('http://localhost:8000/api/sendNewEmail',{
+          'name':this.newEmail,
+        },{
+                headers:{
+                    'Authorization': 'Bearer '+window.localStorage.getItem('userToken'),
+                }
+            }).then((res)=>{
+                console.log(res.data);                
+            }).catch((err)=>{
+                console.error(err);
+                if(err.response){
+                    console.warn(err.response);
+                    if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
+                    console.warn(err.response.status);
+                }
+            });
+      },
+      sendNewPass(){
+        axiosinst.put('http://localhost:8000/api/sendNewPass',{
+          'name':this.newPass,
+        },{
+                headers:{
+                    'Authorization': 'Bearer '+window.localStorage.getItem('userToken'),
+                }
+            }).then((res)=>{
+                console.log(res.data);                
+            }).catch((err)=>{
+                console.error(err);
+                if(err.response){
+                    console.warn(err.response);
+                    if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
+                    console.warn(err.response.status);
+                }
+            });
       },
       showRooms(){
         axiosinst.post('http://localhost:8000/api/showTRooms',{},{
@@ -433,6 +455,10 @@ import axiosinst from '../axios';
           console.warn(err.response.status);
         }
       });
+      },
+      gotoRoom(id){
+        window.localStorage.setItem('troomid',id);
+        this.$router.push('http://localhost:8080/teacherroom');
       }
     },
   };

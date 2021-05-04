@@ -8,6 +8,7 @@ import teacher from "../views/teacher.vue";
 import sturoom from "../views/studentroom.vue";
 import student from "../views/student.vue";
 import chat from "../views/chat.vue";
+import teacherroom from "../views/teacherroom.vue";
 const routes = [
   {
     path: "/",
@@ -54,6 +55,11 @@ const routes = [
     path:"/chat",
     name:"chat",
     component:chat,
+  },
+  {
+    path:"/teacherroom",
+    name:"teacherroom",
+    component:teacherroom,
   },
 ];
 

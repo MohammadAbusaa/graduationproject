@@ -1,20 +1,10 @@
 <template>
     <div class="container">
     <div class="messages">
-      <div class="msg-header">
-        <div class="msg-header-img">
-          <img src="love.jpg">
-        </div>
-        <div class="activeMsg">
-          <h4>
-            name
-          </h4>
-        </div>
-      </div>
       <div class="chat-page">
         <div class="msg-inbox">
-          <div class="chats">
-              <div class="msg-page">
+          <div class="chats" >
+              <div class="msg-page" ref="myEl">
                 <div v-for="msg in activeChat" :key="msg">
                   <div class="received-chats" v-if="msg.user_id!=user.id">
                     <div class="received-chats-img">
@@ -65,9 +55,9 @@
         </a>
       </div>
       
-    <div class="conversations-list">
-      
-      <div class="convo" v-for="convo in users" :key="convo" @click="changeChat(convo[0].id)" >
+    <div class="conversations-list" >
+      <div v-if="users.length">
+      <div class="convo" v-for="convo in users" :key="convo" @click="changeChat(convo[0].id)"  >
         <div class="convo-img">
           <img src="love.jpg">
         </div>
@@ -80,6 +70,12 @@
           </span>
         </div>
       </div>
+      </div>
+      <div v-else style="text-align: center;">
+        <p>
+          !لا يوجد رسائل
+        </p>
+      </div>
       
     </div>
   </div>
@@ -88,16 +84,18 @@
 
 <script>
 import axiosinst from '../axios'
+import db from '../firebase'
 export default {
     name:'chat',
     data() {
         return {
-            msgs:{},
+            msgs:[],
             users:[],
             user:{},
             activeChat:{},
             newMsgs:[],
             userMsg:'',
+            realNewMsgs:[],
             backLogo:require('@/assets/backInv.png'),
             sendLogo:require('@/assets/paper-plane.png'),
         }
@@ -117,6 +115,12 @@ export default {
                 }
             }).then((res)=>{
                 console.info(res);
+                db.ref('chats').push({
+                  body:this.userMsg,
+                  timestamp:new Date().getTime(),
+                  user_id:this.user.id,
+                  receiver_id:this.activeChat[0]['receiver_id'],
+                });
                 this.userMsg='';
             }).catch((err)=>{
                 console.error(err);
@@ -129,7 +133,6 @@ export default {
       }
     },
     mounted() {
-        
             
     },
     created(){
@@ -142,12 +145,66 @@ export default {
                 this.msgs=res.data.msgs;
                 this.users=res.data.users;
                 this.user=res.data.user;
-                let x=this;
-                window.Echo.private('chat.'+this.user.id).listen('MessageSent',e=>{
-              x.msgs[e.rec].push(e.msg);
-              this.$store.commit('User',{user:'chat.'+this.user.id});
-              console.warn('event : '+e.msg.body+' with user : '+e.user.name);
-            });  
+            //     let x=this;
+            //     let ch=window.Echo.private('chat');
+            //     let ch2=ch.listen('MessageSent',e=>{
+            //   x.msgs[e.rec].push(e.msg);
+            //   this.$store.commit('User',{user:'chat.'+this.user.id});
+            //   console.warn('event : '+e.msg.body+' with user : '+e.user.name);
+            // });
+            // console.log(ch+'  ch' );
+            // console.log(ch2+'  ch2')  ;
+            // console.log(ch);
+            // console.log(ch2) ;
+            /*var dt=this.msgs[3][0]['created_at'];
+            //console.log('wtf '+this.msgs[3][0]['created_at']);
+            var dta=dt.split('T');
+            let str=dta[0]+' '+dta[1].split('.')[0];
+            console.warn('my string : '+str);
+            console.log('time of 1st msg is : '+new Date(str).getTime());
+            for(let x in this.msgs){
+              x.forEach()
+            }*/
+            for(let k in this.msgs){
+              for(let v in this.msgs[k] ){
+            var dt=this.msgs[k][v]['created_at'];
+            var dta=dt.split('T');
+            let str=dta[0]+' '+dta[1].split('.')[0];
+            this.msgs[k][v]['created_at']=new Date(str).getTime();
+              }
+            }
+            for(let k in this.msgs){
+              this.msgs[k].sort((a,b)=>{
+                if(a['created_at']>b['created_at'])
+                  return 1;
+                if(a['created_at']<b['created_at'])
+                  return -1;
+                return 0;
+              })
+            }
+            for(let k in this.msgs){
+              for(let v in this.msgs[k] ){
+                let smthing=this.msgs[k][v]['created_at'];
+                this.msgs[k][v]['created_at']=new Date(smthing).toLocaleString();
+              }
+            }
+
+            db.ref('chats').on('value',snap=>{
+              console.log(snap.val());
+              snap.forEach(s=>{
+                this.newMsgs.push(s.val());
+              });
+              this.msgs[this.newMsgs[this.newMsgs.length-1]['receiver_id']].push({
+                body:this.newMsgs[this.newMsgs.length-1]['body'],
+                user_id:this.newMsgs[this.newMsgs.length-1]['user_id'],
+                receiver_id:this.newMsgs[this.newMsgs.length-1]['receiver_id'],
+                created_at:new Date(this.newMsgs[this.newMsgs.length-1]['timestamp']).toDateString(),
+                });
+              console.info('new msgs');
+              console.log(this.newMsgs);
+              console.info('msgs');
+              console.warn(this.msgs);
+            });
                 
             }).catch((err)=>{
                 console.error(err);
@@ -169,35 +226,11 @@ export default {
     letter-spacing: 0.5px;
     max-width:99%;
     text-align: start;
+    margin-top: 50px;
   }
   img{
     max-width: 50px;
     
-  }
-  .msg-header{
-    border: 1px solid #ccc;
-    width: 750px;
-    height: 10%;
-    border-bottom: none;
-    display: inline-block;
-    background-color: #007bff;
-  }
-  .msg-header-img{
-    border-radius: 50%;
-    width: 50px;
-    margin-left: 5%;
-    margin-top: 12px;
-    float: left;
-  }
-  .activeMsg{
-    width: 120px;
-    float: left;
-    margin-top: 10px;
-  }
-  .activeMsg h4{
-    font-size: 10px;
-    margin-left: 10px;
-    color: #fff;
   }
   .chat-page{
     padding: 0 0 50px 0;
@@ -216,7 +249,7 @@ export default {
   .msg-page{
     height: 400px;
     overflow-y: auto;
-    background-color: #e6e9c49f;
+    background-color: #a7e2ec9f;
   }
   .received-chats-img{
     display: block;
@@ -335,6 +368,7 @@ export default {
   .messages{
     width: 750px;
     height: 500px;
+    margin-top: 20px;
   }
   .back{
     float: right;

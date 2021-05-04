@@ -227,7 +227,7 @@ export default {
             }).then((res)=>{
                 console.info(res);
                 window.localStorage.removeItem('userToken');
-                window.Echo.leaveChannel(this.$store.state.user);
+                window.Echo.disconnect();
                 this.$router.push('/');
             }).catch((err)=>{
                 console.error(err);
