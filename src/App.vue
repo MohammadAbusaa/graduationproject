@@ -1,16 +1,15 @@
 <template>
-  <div id="nav" v-if="!['sturoom','teacher','student','chat','teacherroom'].includes($route.name)">
-  <div id ="nav2">
-    <router-link to="/" exact>الصفحة الرئيسة</router-link> |
-    <router-link to="/about">حول الصفحة </router-link>|
-    <router-link to="/signup">انشاء حساب </router-link>|
-    <router-link to="/LogIn">تسجيل الدخول</router-link>
+  <div id="nav" v-if="!['sturoom','teacher','student','chat','teacherroom','games'].includes($route.name)">
+<div id ="nav2">
+    <router-link to="/" exact style=" font-size: 20px; margin-left:30px;">الصفحة الرئيسة</router-link> |
+    <router-link to="/signup" style=" font-size: 20px; margin-right:40px; margin-left:30px;">انشاء حساب </router-link>|
+    <router-link to="/LogIn" style=" font-size: 20px;  margin-right:40px;">تسجيل الدخول</router-link>
     </div>
   </div>
   <router-view/>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped >
 .body {
 background-color: #DBF9FC;
 }
@@ -23,22 +22,22 @@ background-color: #DBF9FC;
   color: #474a4d;
   
 }
-
 #nav2 {
+  width:700px;
   
   padding: 2%;
 
-margin-left: 70%;}
+margin-left: 50%;}
 
 #nav {
-  background:#08546c ;
   margin: -1%;
  
   
 
   a {
     font-weight: bold;
-    color: #A0BACC;
+    color: #939b62;
+    text-decoration: none;
 
     &.router-link-exact-active {
       color: #022534;

@@ -1,26 +1,26 @@
 <template>
-  <ul class="roomvavul" style="height:65px;  width: 99.6%; list-style-type: none;  margin: -1%; padding: 1%; overflow: hidden; background-color:#08546c ;">
+  <ul class="roomvavul" style="height:65px;  width: 99.6%; list-style-type: none;  margin: -1%; padding: 1%; overflow: hidden; background-color: #939b62;">
 
     <div class="navroom" style="  margin-right: 35%;">
-      <li  style="margin-right:-50%;  background-color: #08546c; "> <div style="display: flex; ">
-  <h4 style="padding:5px">{{tName}}</h4>
+      <li  style="margin-right:-50%;  background-color:#939b62; "> <div style="display: flex; ">
+  <h4 class="momo" style="padding:5px font-family: sans-serif; ">{{tName}}</h4>
       <img src="" alt="" style="width:50px;height:50px; padding:5px; ">
       </div>
       </li >
-      <li style="margin-right:-30%;  background-color: #08546c;"><a class="w" href="#notifec" >  <div >
+      <li style="margin-right:-30%;  background-color: #939b62;"><a class="w" href="#notifec" >  <div >
       <img :src="notifecationlogo" alt="" style="width:30px;height:30px;">
       <div>الاشعارات</div>
       </div>
       </a></li>
 
-      <li style="margin-right:15%;  background-color: #08546c;" >  <div>
+      <li style="margin-right:15%;  background-color: #939b62;" >  <div style=" border: 1px solid  #939b62;">
     <h1>{{roomName}}</h1>
 
       </div>
     </li>
 
 
-      <li style="margin-right:49%;  background-color: #08546c;" @click="logout"><a class="w" >  <div>
+      <li style="margin-right:65%;  background-color: #939b62;" @click="logout"><a class="w" >  <div>
       <img :src="logoutLogo" alt="" style="width:30px;height:30px;">
       <div>تسجيل الخروج</div>
       </div>
@@ -49,34 +49,43 @@
   <div>الدردشة</div>
   </div>
   </a></li>
-  <li class="d" margin ><a class="m" >  <div >
+  <li class="d" margin ><a class="m" @click="()=>{$router.push('/games')}" >  <div >
   <img :src="gamepad" alt="" style="width:20px;height:20px;">
   <div>الامتحانات</div>
+  </div>
+  </a></li>
+  <li class="d" margin ><a class="m" href="#sett"  >  <div >
+  <img :src="settings" alt="" style="width:20px;height:20px;">
+  <div>اعدادات الغرفة</div>
   </div>
   </a></li>
 
 </ul>
 
 
-<div ref="postsDiv" id="postsDiv" style="  overflow: auto; height:500px; width:70%; border: 5px solid #A0BACC;  padding:8px;  border-radius: 10px; background:#2f5d62; margin-left:10%; margin-top:2%;">
+
+<div style="  overflow: auto; height:500px; width:70%; border: 5px solid #ff7b54;  padding:8px;  border-radius: 10px; background:#939b62; margin-left:10%; margin-top:2%;">
   <div style="margin-left:47%;">
     <div style="margin-right:90%;" >
     <img :src="advertisementlogo" alt="" style="width:30px;height:30px; margin-left:12px;">
-    <div ><h2>الاعلانات</h2></div>
+    <div ><h2>المنشورات</h2></div>
+     
+    <a href="#newad" style="text-decoration: none;">
+<input  style="margin-left:-40px;" type="submit" class="ad" name="" value="اضافة منشور" />
+</a>
     </div>
 </div>
-<div v-if="roomPosts.length">
-<div v-for="post in roomPosts" :key="post" class="alert" style="border-radius: 10px;  text-align: right;  background:#f8ede3  display: flex;"><div> <img @click="deletePost" :src="deleted" alt="" style="width:30px;height:30px; margin-right:97%;" />{{post.user}}<br>{{post.body}}<br>{{post.time}}</div></div>
+<div style="  background: #eee;  border-radius: 10px; " v-for="post in roomPosts" :key="post">    <div style="display: flex; margin-left:85%; ">
+  <h4 class="momo" style="padding:5px font-family: sans-serif; ">{{post.user}}</h4>
+      <img src="" alt="" style="width:50px;height:50px; padding:5px; ">
+      </div>
+     <a href="#delpost">  <img :src="deleted" alt="" style="width:30px;height:30px; margin-right:97%; margin-top:-15px;" /></a>
+ <div class="alert" style=" text-align: right; margin-top:-7px;  "><div>{{post.body}}<br>{{post.time}}</div></div>
 </div>
- 
- <div v-else> no ads yet</div>
- 
-<a href="#newad" style="text-decoration: none;">
-<input   type="submit" class="ad" name="" value="اضافة اعلان" />
-</a>
 </div>
 
-<div style=" height:500px; width:70%; border: 5px solid #A0BACC;  padding:8px;  border-radius: 10px; background:#2f5d62; margin-left:10%;margin-top:10px;">
+
+<div style=" height:500px; width:70%; border: 5px solid #ff7b54;  padding:8px;  border-radius: 10px; background:#939b62; margin-left:10%;margin-top:10px;">
   <div style="margin-left:45%;">
     <div style="margin-right:90%;">
     <img :src="homework" alt="" style="width:30px;height:30px; margin-left:12px;">
@@ -84,14 +93,14 @@
     </div>
 </div>
 
-<div style=" height:250px; width:100%; border: 1px solid #A0BACC;  border-radius: 5px;      background:#f8ede3; display: flex; ">
+<div style=" height:250px; width:100%; border: 1px solid #ff7b54;  border-radius: 5px;      background:#f8ede3; display: flex; ">
 
-<div v-for="assignment in roomAssignments" :key="assignment" style=" height:150px; width:120px; border: 1px solid #A0BACC;  border-radius: 5px;  background:#ffd3b4   ">
-<div style=" height:50px; width:119px; border: 1px solid #A0BACC;   background:#f8ede3">     <img :src="document" alt="" style="width:30px;height:30px; margin-left:45px;"></div>
+<div v-for="assignment in roomAssignments" :key="assignment" style=" height:150px; width:120px; border: 1px solid #ff7b54;  border-radius: 5px;  background:#ffd3b4 ;  margin-left:30px; ">
+<div style=" height:50px; width:119px; border: 1px solid #ff7b54;   background:#f8ede3">     <img :src="document" alt="" style="width:30px;height:30px; margin-left:45px;"></div>
 <div style=" height:50px;  text-align: right;  "> {{assignment.due_date}} التاريخ</div>
 <div style="text-align: right; "> {{assignment.assignment_details}} الوصف</div>
-<a href="#tasks" style="text-decoration: none;">
-<input   type="submit" class="ad" name="" value="التسليمات" @click="chHandedWindow(assignment.id)" />
+<a href="#tasks" style="text-decoration: none; ">
+<input style="margin-left:-10px;"   type="submit" class="ad" name="" value="التسليمات" @click="chHandedWindow(assignment.id)" />
 </a>
 </div>
 
@@ -101,7 +110,7 @@
 </a>
 </div>
 
-<div style=" height:500px; width:70%; border: 5px solid #A0BACC;  padding:8px;  border-radius: 10px; background:#2f5d62; margin-left:10%;margin-top:10px;">
+<div style=" height:500px; width:70%; border: 5px solid #ff7b54;  padding:8px;  border-radius: 10px; background:#939b62; margin-left:10%;margin-top:10px;">
   <div style="margin-left:45%;">
     <div style="margin-right:90%;" >
     <img :src="speech" alt="" style="width:30px;height:30px; margin-left:20px;">
@@ -109,36 +118,15 @@
     </div>
 </div>
 
-<div style=" height:250px; width:100%; border: 1px solid #A0BACC;  border-radius: 5px; display: flex;    background:#f8ede3">
+<div style=" height:250px; width:100%; border: 1px solid #ff7b54;  border-radius: 5px; display: flex;    background:#f8ede3">
 
-  <div style="border: 1px solid #A0BACC; width:90px;  height:90px;" >
+  <div style="border: 1px solid #ff7b54; width:90px;  height:90px;" v-for="circ in circFiles" :key="circ" @click="dlHandedFile(circ.file_id)">
   <img :src="multimedia" alt="" style="width:30px;height:30px; margin-left:28px;">
-  <div style="text-align: right;" >الوصف</div>
+  <div style="text-align: right;" >{{circ.description}}</div>
   </div>
 </div>
 <a href="#newsub" style="text-decoration: none;">
 <input   type="submit" class="ad" name="" value="اضافة شرح" />
-</a>
-</div>
-
-
-<div style=" height:500px; width:70%; border: 5px solid #A0BACC;  padding:8px;  border-radius: 10px; background:#2f5d62; margin-left:10%;margin-top:10px;">
-  <div style="margin-left:45%;">
-    <div style="margin-right:90%;" >
-    <img :src="folder" alt="" style="width:30px;height:30px; margin-left:9px;">
-    <div ><h2>المواد </h2></div>
-    </div>
-</div>
-
-<div style=" height:250px; width:100%; border: 1px solid #A0BACC;  border-radius: 5px; display: flex;    background:#f8ede3">
-
-  <div style="border: 1px solid #A0BACC; width:90px;  height:90px;" >
-  <img :src="files" alt="" style="width:30px;height:30px; margin-left:28px;">
-  <div style="text-align: right;" >الوصف</div>
-  </div>
-</div>
-<a href="#newfile" style="text-decoration: none;">
-<input   type="submit" class="ad" name="" value="اضافة مادة" />
 </a>
 </div>
 
@@ -203,13 +191,13 @@
           <div ><h2>اضافة واجب</h2></div>
           </div>
 
-            <div style=" width:250px;height:100px; border: 1px solid #A0BACC; margin-left:32%;  background:#f8ede3"></div>
+            <div style=" width:250px;height:100px; border: 1px solid #ff7b54; margin-left:32%;  background:#f8ede3"></div>
           <div class="upload-btn-wrapper " style="margin-top:3%;">
                    <button class="btn" type="submit" id="submit" name="submit">تحميل ملف</button>
                    <input type="file" ref="hwFile" @change="chFile">
                </div>
                
-               <div style=" margin-left:15%; width:70% ; height:150px; margin-top:10px; border: 5px solid #A0BACC;  border-radius: 70px;">
+               <div style=" margin-left:15%; width:70% ; height:150px; margin-top:10px; border: 5px solid #ff7b54;  border-radius: 70px;">
                    <div>  <label for="birthday">موعد التسليم</label></div>
                <input type="date" id="birthday" name="birthday" v-model="hwDate" style="margin-right:67px;" >
              <input type="time" id="appt" name="appt" v-model="hwTime" style="margin-right:67px; margin-top:10px;">
@@ -238,17 +226,24 @@
 
                 <table>
   <tr>
+<th>التقييم</th>
+      <th>العلامة</th>
       <th>الملفات</th>
       <th>اسم الطالب</th>
+      
   </tr>
   <tr v-for="task in HandedStudents" :key="task">
+    <td style=""> <div contenteditable style=" text-align: center;  background-color: rgb(240, 231, 231);"></div> </td>
+    <td style=""> <div contenteditable style=" text-align: center;  background-color: rgb(240, 231, 231);"></div> </td>
     <td><a @click="dlHandedFile(task.file_id)">الملف</a></td>
       <td>{{task.StudentName}}</td>
+      
 
   </tr>
+  
 
 </table>
-
+<input   type="submit" class="done" name="" value="حفظ" />
 
 
 
@@ -270,54 +265,28 @@
             <div ><h2>اضافة شرح</h2></div>
             </div>
 
-              <div style=" width:250px;height:100px; border: 1px solid #A0BACC; margin-left:32%;  background:#f8ede3"></div>
+              <div style=" width:250px;height:100px; border: 1px solid #ff7b54; margin-left:32%;  background:#f8ede3"></div>
             <div class="upload-btn-wrapper " style="margin-top:3%;">
                      <button class="btn" type="submit" id="submit" name="submit">تحميل ملف</button>
-                     <input type="file">
+                     <input type="file" ref="circFile" @change="chCircFile">
                  </div>
                  <div style="margin-top:10px; margin-left:-80px;">
-                         <input type="text" placeholder="الوصف" />
+                         <input type="text" placeholder="الوصف" v-model="circDesc" />
 
                    </div>
 
-    <input   type="submit" class="done" name="" value="حفظ" />
+    <input   type="submit" class="done" name="" value="حفظ" @click="sendCirc" />
 
           </div>
         </div>
 
 
 
-        <div id="newfile" >
-            <div id="boxfile"  >
-              <div class="exit">
-                <a href="#">
-                  <img :src="cancelLogo" alt="" style="width:30px;height:30px;" />
-                </a>
-              </div>
-              <div >
-              <img :src="folder" alt="" style="width:30px;height:30px; margin-left:0px;">
-              <div ><h2>اضافة مادة</h2></div>
-              </div>
-
-                <div style=" width:250px;height:100px; border: 1px solid #A0BACC; margin-left:32%;  background:#f8ede3"></div>
-              <div class="upload-btn-wrapper " style="margin-top:3%;">
-                       <button class="btn" type="submit" id="submit" name="submit">تحميل ملف</button>
-                       <input type="file">
-                   </div>
-                   <div style="margin-top:10px; margin-left:-80px;">
-                           <input type="text" placeholder="الوصف" />
-
-                     </div>
-
-      <input   type="submit" class="done" name="" value="حفظ" />
-
-            </div>
-          </div>
 
 
           <div id="pr">
                 <div id="boxpart"   >
-          <div class="" style="width:300px; ">
+          <div class="" style="width:320px; ">
             <div class="left" style="background-color:#bbb; border-radius: 10px;">
             <div class="exit" style="margin-left:88%"><a href="#">
           <img :src="cancelLogo" alt="" style="width:30px;height:30px;" />
@@ -326,14 +295,17 @@
 
               <h2 style="margin-left:1%">المستخدمين</h2>
               <div style="display: flex;">
-          <div ><a href="#"><img :src="deleted" alt="" style="width:30px;height:30px;" />  </a>  </div>
+        
 
-              <input style="margin-right:20px;"  id="mySearch"  placeholder="...بحث" title="Type in a category">
+              <input style="margin-right:0px;"  id="mySearch"  placeholder="...بحث" title="Type in a category">
               </div>
               <div style="  height:300px;     overflow: auto;">
               <ul id="myMenu" style="background-color:#bbb; ">
-                <li style="background-color:#bbb"><a  style="width:300px; background-color:#bbb;   text-align: right;" href="#">محمد جمال يحيى</a></li>
-
+               <div style="display: flex; width:200px " v-for="user in roomUsers" :key="user">
+                   <a href="#" @click.prevent='removeStudent(user.id)'><img :src="deleted" alt="" style="width:30px;height:30px; " />  </a>  
+     <li style="background-color:#bbb" ><a  style="width:300px;  margin-left:-50px;   text-align: right;" href="#userprofile">{{user.name}}</a></li>
+</div>
+              
               </ul>
               </div>
             </div>
@@ -341,6 +313,111 @@
           </div>
 
           </div>
+
+
+          <div id="sett" >
+            <div id="boxsett"  >
+              <div class="exit">
+                <a href="#">
+                  <img :src="cancelLogo" alt="" style="width:30px;height:30px;" />
+                </a>
+              </div>
+              <div >
+              <img :src="settings" alt="" style="width:30px;height:30px; margin-left:0px;">
+              <div ><h2>اعدادات الغرفة</h2></div>
+              </div>
+   <input style="margin-left:0px;" type="text" placeholder="تغيير اسم الغرفة الصفية" v-model="roomName" />
+                <input   type="submit" class="done" name="" value="حفظ" @click.prevent='chRoomName' />
+<p>:نوع الغرفة الصفية</p>
+    <div>
+     <div>
+       <h3 v-if="roomType">
+         عام
+       </h3>
+        <h3 v-else>
+         خاص
+       </h3>
+     </div>
+     <input type="submit" value="تغيير نوع الغرفة" class="done" @click.prevent='chRoomType' >
+      </div>
+      <input style="margin-left:0px;" type="text" placeholder="كلمة سر الغرفة" v-model="roomPass" />
+      <input   type="submit" class="done" name="" value="حفظ" @click.prevent='chRoomPass' />
+ <a href="#delroom"><input   type="submit" class="del" name="" value="حذف الغرفة " /></a>
+            </div>
+          </div>
+          <div id="delroom" >
+            <div id="boxdelroom"  >
+              <div class="exit">
+                <a href="#">
+                  <img :src="cancelLogo" alt="" style="width:30px;height:30px;" />
+                </a>
+              </div>
+              <div >
+              <img :src="denied" alt="" style="width:30px;height:30px; margin-left:0px;">
+              <div ><h2>هل انت متأكد من حذف الغرفة؟</h2></div>
+               <input   type="submit" class="done" name="" value="نعم " @click.prevent='deleteRoom' />
+               <a href="#sett">
+              <input   type="submit" class="del" name="" value="لا " />
+              </a>
+             
+              </div>
+  
+            </div>
+          </div>
+            
+          <div id="userprofile" >
+            <div id="boxprofile"  >
+              <div class="exit">
+                <a href="#">
+                  <img :src="cancelLogo" alt="" style="width:30px;height:30px;" />
+                </a>
+              </div>
+               <img src="" alt="" style="width:150px;height:100px; padding:5px; margin-left:-50px ">
+   <div>
+      
+                  <div style=" border: 3px solid #939b62;border-radius: 10px;">
+                  <div style=" display: flex;">
+                  <div style="margin-left:15px;"><img :src="nameLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></div><div><h3 style="margin-right:-20%;">محمد يحيى</h3></div>
+                 
+                  </div>
+
+                  <div style=" display: flex;">
+                  <div style="margin-left:15px;"><img :src="emailLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></div><div><h3 style="margin-right:-20%;">Mohammadyahya.com</h3></div>
+                  
+                  </div>
+
+                  <div style=" display: flex;">
+                  <div style="margin-left:15px;"><img :src="jobLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></div><div><h3 style="margin-right:-20%;"> طالب </h3></div>
+                
+                  </div>
+                
+
+                  
+                   </div>
+            
+
+            </div>
+        </div>
+
+            </div>
+             <div id="delpost" >
+            <div id="boxdelpost"  >
+              <div class="exit">
+                <a href="#">
+                  <img :src="cancelLogo" alt="" style="width:30px;height:30px;" />
+                </a>
+              </div>
+              <div >
+              <img :src="denied" alt="" style="width:30px;height:30px; margin-left:0px;">
+              <div ><h2>هل انت متأكد من حذف المنشورات؟</h2></div>
+               <input   type="submit" class="yes" name="" value="نعم " />
+              <input   type="submit" class="del" name="" value="لا " />
+             
+              </div>
+  
+            </div>
+          </div>
+
 </template>
 
 <script>
@@ -365,6 +442,11 @@ export default {
             cancelLogo:require('@/assets/cancel.png'),
             deleted:require('@/assets/delete.png'),
             gamepad:require('@/assets/gamepad.png'),
+            settings:require('@/assets/settings.png'),
+            denied:require('@/assets/denied.png'),
+            nameLogo:require('@/assets/name.png'),
+                                  emailLogo:require('@/assets/email.png'),
+                                   jobLogo:require('@/assets/job.png'),
             roomName:'',
             tName:'',
             roomAssignments:[],
@@ -376,6 +458,12 @@ export default {
             hwTime:'',
             hwDesc:'',
             HandedStudents:[],
+            roomUsers:[],
+            circFile:'',
+            circDesc:'',
+            circFiles:[],
+            roomType:'',
+            roomPass:'',
                            
       
         }
@@ -388,6 +476,8 @@ export default {
       }).then((res)=>{
         this.roomName=res.data.roomInf.name;
         this.tName=res.data.roomInf.teacher;
+        this.roomType=res.data.roomInf.type;
+        this.roomPass=res.data.roomInf.password;
       }).catch((err)=>{
         if(err.response){
           if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
@@ -407,9 +497,9 @@ export default {
               }
               this.roomPosts.sort((a,b)=>{
                 if(a['time']>b['time'])
-                  return 1;
-                if(a['time']<b['time'])
                   return -1;
+                if(a['time']<b['time'])
+                  return 1;
                 return 0;
               })
             for(let k in this.roomPosts){
@@ -440,6 +530,28 @@ export default {
         snap.forEach(s=>{
           this.roomPosts.push(s.val());
         });
+      });
+      axiosinst.post('http://localhost:8000/api/getRoomUsers/'+window.localStorage.getItem('troomid'),{},{
+        headers:{
+          'Authorization':'Bearer '+window.localStorage.getItem('userToken'),
+        }
+      }).then((res)=>{
+        this.roomUsers=res.data.users;
+      }).catch((err)=>{
+        if(err.response){
+          if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
+        }
+      });
+      axiosinst.post('http://localhost:8000/api/getCircs/'+window.localStorage.getItem('troomid'),{},{
+        headers:{
+          'Authorization':'Bearer '+window.localStorage.getItem('userToken'),
+        }
+      }).then((res)=>{
+        this.circFiles=res.data.circ;
+      }).catch((err)=>{
+        if(err.response){
+          if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
+        }
       });
     },
     methods:{
@@ -521,7 +633,123 @@ export default {
           if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
         }
       });
-    }
+    },
+    deletePost(id){
+      axiosinst.post('http://localhost:8000/api/deletePost/'+id,{},{
+        headers:{
+          'Authorization':'Bearer '+window.localStorage.getItem('userToken'),
+        }
+      }).then(()=>{
+        this.$router.go();
+      }).catch((err)=>{
+        if(err.response){
+          if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
+        }
+      });
+    },
+    logout(){
+      axiosinst.post('http://localhost:8000/api/logoutUser',{},{
+        headers:{
+          'Authorization':'Bearer '+window.localStorage.getItem('userToken'),
+        }
+      }).then(()=>{
+        window.localStorage.clear();
+        this.$router.push('/');
+      }).catch((err)=>{
+        if(err.response){
+          if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
+        }
+      });
+    },
+    sendCirc(){
+      var fd=new FormData();
+      if(this.circFile!='')fd.append('circFile',this.circFile);
+      fd.append('circDesc',this.circDesc);
+      axiosinst.post('http://localhost:8000/api/sendCirc/'+window.localStorage.getItem('troomid'),fd,{
+        headers:{
+          'Authorization':'Bearer '+window.localStorage.getItem('userToken'),
+        }
+      }).catch((err)=>{
+        if(err.response){
+          if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
+        }
+      }).then((res)=>{
+        if(res.data=='done')this.$router.go(0);
+      });
+    },
+    chCircFile(){
+      this.circFile=this.$refs.circFile.files[0];
+    },
+    chRoomName(){
+      axiosinst.post('http://localhost:8000/api/chRoomName/'+window.localStorage.getItem('troomid'),{
+        'name':this.roomName,
+      },{
+        headers:{
+          'Authorization':'Bearer '+window.localStorage.getItem('userToken'),
+        }
+      }).then((res)=>{
+        if(res.data.status=='OK')this.$router.go(0);
+      }).catch((err)=>{
+        if(err.response){
+          if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
+        }
+      });
+    },
+    chRoomType(){
+      axiosinst.post('http://localhost:8000/api/chRoomType/'+window.localStorage.getItem('troomid'),{},{
+        headers:{
+          'Authorization':'Bearer '+window.localStorage.getItem('userToken'),
+        }
+      }).then((res)=>{
+        if(res.data.status=='OK')this.$router.go(0);
+      }).catch((err)=>{
+        if(err.response){
+          if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
+        }
+      });
+    },
+    chRoomPass(){
+      axiosinst.post('http://localhost:8000/api/chRoomPass/'+window.localStorage.getItem('troomid'),{
+        'password':this.roomPass,
+      },{
+        headers:{
+          'Authorization':'Bearer '+window.localStorage.getItem('userToken'),
+        }
+      }).then((res)=>{
+        if(res.data.status=='OK')this.$router.go(0);
+      }).catch((err)=>{
+        if(err.response){
+          if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
+        }
+      });
+    },
+    deleteRoom(){
+      axiosinst.post('http://localhost:8000/api/deleteRoom/'+window.localStorage.getItem('troomid'),{},{
+        headers:{
+          'Authorization':'Bearer '+window.localStorage.getItem('userToken'),
+        }
+      }).then((res)=>{
+        if(res.data.status=='OK')this.$router.push('/teacher');
+      }).catch((err)=>{
+        if(err.response){
+          if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
+        }
+      });
+    },
+    removeStudent(sid){
+      const rid=window.localStorage.getItem('troomid');
+      axiosinst.post('http://localhost:8000/api/deleteStuFromRoom/'+rid+'/'+sid,{},{
+        headers:{
+          'Authorization':'Bearer '+window.localStorage.getItem('userToken'),
+        }
+      }).then((res)=>{
+        if(res.data.status=='OK')this.$router.go(0);
+      }).catch((err)=>{
+        if(err.response){
+          if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
+        }
+      });
+    },
     },
 }
 </script>
@@ -544,7 +772,7 @@ li .w {
 }
 
 li .w:hover:not(.active) {
-  background-color: #111;
+  background-color: #ffb26b;
 
 }
 
@@ -560,7 +788,7 @@ li .m {
     text-align: center;
   width:50px;
 border-radius: 10px;
-  background-color: #2ecc71;
+  background-color: #ff7b54;
   display: block;
   color: #000;
   padding: 8px 16px;
@@ -576,7 +804,7 @@ li .m:hover:not(.active) {
  .d{
    border-radius: 10px;
    height:90px;
-     background-color: #2ecc71;
+     background-color: #ff7b54;
  }
 
  #notifec{
@@ -602,16 +830,16 @@ li .m:hover:not(.active) {
    padding-left: 5%;
    padding-right: 5%;
    padding-bottom: 5%;
-   border: 3px solid #a0bacc;
+   border: 3px solid #939b62;
    border-radius: 10px;
-   color: #3498db;
+   color: #939b62;
    position: absolute;
    top: 10px;
    right: 10px;
    bottom: 10px;
    left: 10px;
    margin: auto;
-   background: #a0bacc;
+   background: #ffd56b;
  }
  .exit {
     margin-left: 104%;
@@ -630,7 +858,7 @@ li .m:hover:not(.active) {
     display: block;
     margin: 30px auto;
     text-align: center;
-    border: 2px solid #2ecc71;
+    border: 2px solid #ffb26b;
     padding: 14px 40px;
     outline: none;
     color: white;
@@ -640,7 +868,7 @@ li .m:hover:not(.active) {
       color: #111;
   }
   .ad:hover {
-    background: #2ecc71;
+    background: #ffb26b;
   }
 
 
@@ -667,23 +895,23 @@ li .m:hover:not(.active) {
     padding-left: 5%;
     padding-right: 5%;
     padding-bottom: 5%;
-    border: 3px solid #a0bacc;
+    border: 3px solid #939b62;
     border-radius: 10px;
-    color: #3498db;
+    color: #939b62;
     position: absolute;
     top: 10px;
     right: 10px;
     bottom: 10px;
     left: 10px;
     margin: auto;
-  background:#2f5d62
+  background:#ffd56b;
   }
   .done {
       background: none;
       display: block;
       margin: 30px auto;
       text-align: center;
-      border: 2px solid #2ecc71;
+      border: 2px solid #939b62;
       padding: 14px 40px;
       outline: none;
       color: white;
@@ -693,7 +921,7 @@ li .m:hover:not(.active) {
         color: #111;
     }
     .done:hover {
-      background: #2ecc71;
+      background: #939b62;
     }
 
     #newHw{
@@ -719,16 +947,16 @@ li .m:hover:not(.active) {
       padding-left: 5%;
       padding-right: 5%;
       padding-bottom: 5%;
-      border: 3px solid #a0bacc;
+      border: 3px solid #939b62;
       border-radius: 10px;
-      color: #3498db;
+      color: #939b62;
       position: absolute;
       top: 10px;
       right: 10px;
       bottom: 10px;
       left: 10px;
       margin: auto;
-    background:#2f5d62
+    background:#ffd56b;
     }
     #tasks{
        background: #f4f4f480;
@@ -753,7 +981,7 @@ li .m:hover:not(.active) {
       padding-left: 5%;
       padding-right: 5%;
       padding-bottom: 5%;
-      border: 3px solid #a0bacc;
+      border: 3px solid #939b62;
       border-radius: 10px;
   
       position: absolute;
@@ -762,7 +990,7 @@ li .m:hover:not(.active) {
       bottom: 10px;
       left: 10px;
       margin: auto;
-    background:#2f5d62
+    background:#ffd56b;
     }
 
     #newsub{
@@ -787,31 +1015,18 @@ li .m:hover:not(.active) {
      padding-left: 5%;
      padding-right: 5%;
      padding-bottom: 5%;
-     border: 3px solid #a0bacc;
+     border: 3px solid #939b62;
      border-radius: 10px;
-     color: #3498db;
+     color: #939b62;
      position: absolute;
      top: 10px;
      right: 10px;
      bottom: 10px;
      left: 10px;
      margin: auto;
-    background:#2f5d62
+    background:#ffd56b;
     }
 
-    #newfile{
-       background: #f4f4f480;
-       width: 100%;
-       height: 100%;
-       position: absolute;
-       top: 0;
-       left: 0;
-       display: none;
-
-     }
-    #newfile:target {
-      display: block;
-    }
     #boxfile {
 
      height: 65%;
@@ -821,16 +1036,16 @@ li .m:hover:not(.active) {
      padding-left: 5%;
      padding-right: 5%;
      padding-bottom: 5%;
-     border: 3px solid #a0bacc;
+     border: 3px solid #939b62;
      border-radius: 10px;
-     color: #3498db;
+     color: #939b62;
      position: absolute;
      top: 10px;
      right: 10px;
      bottom: 10px;
      left: 10px;
      margin: auto;
-    background:#2f5d62
+    background:#ffd56b;
     }
 
 
@@ -861,7 +1076,7 @@ input[type="date"] {
  background: none;
 margin-left:80px;
  text-align: center;
- border: 2px solid #3498db;
+ border: 2px solid #939b62;
  padding: 14px 10px;
  width: 30%;
  outline: none;
@@ -871,14 +1086,14 @@ margin-left:80px;
 }
  input[type="date"]:focus {
 
- border-color: #2ecc71;
+ border-color: #ff7b54;
 }
 
 input[type="time"] {
  background: none;
 margin-left:80px;
  text-align: center;
- border: 2px solid #3498db;
+ border: 2px solid #939b62;
  padding: 14px 10px;
  width: 30%;
  outline: none;
@@ -888,13 +1103,13 @@ margin-left:80px;
 }
  input[type="time"]:focus {
 
- border-color: #2ecc71;
+ border-color: #ff7b54;
 }
 input[type="text"] {
  background: none;
 margin-left:100px;
  text-align: center;
- border: 2px solid #3498db;
+ border: 2px solid #939b62;
  padding: 14px 10px;
  width: 30%;
  outline: none;
@@ -904,7 +1119,7 @@ margin-left:100px;
 }
  input[type="text"]:focus {
 
- border-color: #2ecc71;
+ border-color: #ff7b54;
 }
 
 #pr{
@@ -961,12 +1176,6 @@ color: black;
 display: block
 }
 
-#myMenu li a:hover {
-
-background-color: #eee;
-
-}
-
 table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
@@ -987,4 +1196,179 @@ td {
 tr:nth-child(even) {
   background-color: #dddddd;
 }
+
+
+ #sett{
+       background: #f4f4f480;
+       width: 100%;
+       height: 100%;
+       position: absolute;
+       top: 0;
+       left: 0;
+       display: none;
+
+     }
+
+     #sett:target {
+       display: block;
+     }
+     #boxsett {
+
+      height: 85%;
+      width: 50%;
+      text-align: center;
+      padding-top: 5px;
+      padding-left: 5%;
+      padding-right: 5%;
+      padding-bottom: 5%;
+      border: 3px solid #939b62;
+      border-radius: 10px;
+      color: #939b62;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      bottom: 10px;
+      left: 10px;
+      margin: auto;
+    background:#ffd56b;
+    overflow-y: scroll;
+    }
+
+     #userprofile{
+       background: #f4f4f480;
+       width: 100%;
+       height: 100%;
+       position: absolute;
+       top: 0;
+       left: 0;
+       display: none;
+
+     }
+
+     #userprofile:target {
+       display: block;
+     }
+     #boxprofile {
+
+      height: 60%;
+      width: 40%;
+      text-align: center;
+      padding-top: 5px;
+      padding-left: 5%;
+      padding-right: 5%;
+      padding-bottom: 5%;
+      border: 3px solid #939b62;
+      border-radius: 10px;
+      color: #939b62;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      bottom: 10px;
+      left: 10px;
+      margin: auto;
+    background:#ffd56b;
+    }
+    .del {
+      background: none;
+      display: block;
+      margin: 30px auto;
+      text-align: center;
+      border: 2px solid #ce1323;
+      padding: 14px 40px;
+      outline: none;
+      color: white;
+      border-radius: 24px;
+      transition: 0.25s;
+      cursor: pointer;
+        color: #111;
+    }
+    .del:hover {
+      background: #ce1323;
+    }
+    .yes {
+      background: none;
+      display: block;
+      margin: 30px auto;
+      text-align: center;
+      border: 2px solid #2ecc71;
+      padding: 14px 40px;
+      outline: none;
+      color: white;
+      border-radius: 24px;
+      transition: 0.25s;
+      cursor: pointer;
+        color: #111;
+    }
+    .yes:hover {
+      background: #2ecc71;
+    }
+    #delroom{
+       background: #f4f4f480;
+       width: 100%;
+       height: 100%;
+       position: absolute;
+       top: 0;
+       left: 0;
+       display: none;
+
+     }
+
+     #delroom:target {
+       display: block;
+     }
+     #boxdelroom {
+
+      height: 40%;
+      width: 30%;
+      text-align: center;
+      padding-top: 5px;
+      padding-left: 5%;
+      padding-right: 5%;
+      padding-bottom: 5%;
+      border: 3px solid #939b62;
+      border-radius: 10px;
+      color: #939b62;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      bottom: 10px;
+      left: 10px;
+      margin: auto;
+    background:#ffd56b;
+    }
+     #delpost{
+       background: #f4f4f480;
+       width: 100%;
+       height: 100%;
+       position: absolute;
+       top: 0;
+       left: 0;
+       display: none;
+
+     }
+
+     #delpost:target {
+       display: block;
+     }
+     #boxdelpost {
+
+      height: 40%;
+      width: 30%;
+      text-align: center;
+      padding-top: 5px;
+      padding-left: 5%;
+      padding-right: 5%;
+      padding-bottom: 5%;
+      border: 3px solid #939b62;
+      border-radius: 10px;
+      color: #939b62;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      bottom: 10px;
+      left: 10px;
+      margin: auto;
+    background:#ffd56b;
+    }
+   
 </style>

@@ -1,39 +1,43 @@
 <template>
 <link  href="https://www.w3schools.com/w3css/4/w3.css">
-<ul>
+<ul style=" height:50px;   list-style-type: none; margin: -1%; padding: 1%; overflow: hidden;  background-color: #939b62;">
     <div class="navs" style="">
 
         <div style="">
-            <li style="margin-right:-45%;  background-color: #08546c;"><a href="#studentinfo">
-                    <div>المعلومات الشخصية
+            <li style="margin-right:-41%;  background-color:#939b62; "><a href="#studentinfo">
+                    <div style="display:flex;">
+                        <div style="margin-top:15px;">المعلومات الشخصية</div>
                         <img :src="s1Logo" alt="" style="width:35px;height:35px;">
                     </div>
                 </a></li>
         </div>
-        <li style="margin-right: 85%;  background-color: #08546c;"><a class="" @click.prevent="logout">
-                <div >تسجيل الخروج
-                    <img :src="logoutLogo" alt="" style="width:25px;height:25px;">
-                </div>
-            </a></li>
-            <li style="position:relative;bottom:90px;  background-color: #08546c;">
+        <li style=" margin-right:-23%;  background-color: #939b62;">
                 <a @click="this.$router.push('http://localhost:8080/chat')">
                 
-                    <div> 
-                         المحادثات
-                        <img :src="chatIcon" alt="" >
+                    <div style="display:flex;"> 
+                       <div style="margin-top:15px;">  المحادثات</div>
+                        <img :src="chat" alt="" style="width:35px;height:35px;" >
                        
                     </div>
                     
                 </a>
             </li>
+        <li style="margin-right: 85%;  background-color: #939b62;"><a class="" @click.prevent="logout">
+                <div style="display:flex;" >
+                    <div style="margin-top:8px;">تسجيل الخروج</div>
+                    <img :src="logoutLogo" alt="" style="width:25px;height:25px;">
+                </div>
+            </a></li>
+            
 
     </div>
 </ul>
-<div class="findclass"
-    style="  height:100%;  width: 70%;  text-align: center;  border: 3px solid #A0BACC;border-radius: 10px; color: #3498db;  position: absolute;top: 14%;right: 0%;  margin: auto;">
+<div id="st" class="findclass"
+    style="  height:100%;  width: 70%;  text-align: center;  border: 3px solid #939b62;border-radius: 10px; color:#3498db;  margin-top: 4%; margin-left:14%;">
 
-    <div>الدخول الى الصف
+    <div>
         <img :src="s2Logo" alt="" style="width:50px;height:50px;">
+        <h3>اختيار صف</h3>
     </div>
 
     <input type="text" placeholder="البحث من خلال اسم الصف" style=" padding:10px;  " v-model="roomName" @change="searchRooms">
@@ -63,41 +67,44 @@
             </select>
  
         </div>
-        <button v-for="DBroom in roomsDB" :key="DBroom" @click="registerStudent(DBroom.id)">{{DBroom.name}}</button>
     </div>
            <div class="w3-container w3-hide-small w3-red" >
-      <div style="display: flex;">     
+      <div style="display: flex;" v-for="DBroom in roomsDB" :key="DBroom" @click="registerStudent(DBroom.id)">     
            
-  <a  class="" style="padding:30px"  >
+    
+  <a  class="" style="padding:30px" v-if="DBroom.type"   >
     <img :src="classroomLogo" alt="" style="width:50px;height:50px;">
-    <div><h4>اسم الغرفة الصفية  <img :src="privateLogo" alt="" style="width:20px;height:20px;"></h4></div>
+    <div><h4>{{DBroom.name}} <img :src="privateLogo" alt="" style="width:20px;height:20px;"></h4></div>
   </a>
 
+
  
-  <a  class="" style="padding:30px"    >
+  <a  class="" style="padding:30px" v-else   >
     <img :src="classroomLogo" alt="" style="width:50px;height:50px;">
-    <div><h4>اسم الغرفة الصفية  <img :src="publicroomLogo" alt="" style="width:20px;height:20px;"></h4></div>
+    <div><h4>{{DBroom.name}}  <img :src="publicroomLogo" alt="" style="width:20px;height:20px;"></h4></div>
   </a>
   
   </div> 
 </div> 
 </div>
-<div style="height:100%;  width: 29%;  text-align: center; border: 3px solid #A0BACC;  border-radius: 10px;color: #3498db;  position: absolute;  top: 14%; left: 0%; margin: auto; ">
-    <div>الصفوف التي اخترتها
+<div id="st2" style=" height:100%;  width: 70%;  text-align: center; border: 3px solid #939b62;  border-radius: 10px;color: #3498db;  margin-top: 4%; margin-left:14%; ">
+    <div>
         <img :src="s3Logo" alt="" style="width:50px;height:50px;">
+        <h3>الصفوف التي اخترتها</h3>
+        
     </div>
-        <div class="w3-container w3-hide-small w3-red" >
-      <div style="display: flex;">     
+        <div style="display: flex;" class="w3-container w3-hide-small w3-red" >
+      <div style="display: flex;" v-for="room in rooms" :key="room" @click="showRoom(room.room_id)">     
            
-  <a  class="" style="padding:30px"  >
+  <a  class="" style="padding:30px" v-if="!room.type"  >
     <img :src="classroomLogo" alt="" style="width:50px;height:50px;">
-    <div><h4>اسم الغرفة الصفية  <img :src="privateLogo" alt="" style="width:20px;height:20px;"></h4></div>
+    <div><h4>{{room.name}} <img :src="privateLogo" alt="" style="width:20px;height:20px;"></h4></div>
   </a>
 
  
-  <a  class="" style="padding:30px"    >
+  <a  class="" style="padding:30px;"  v-else  >
     <img :src="classroomLogo" alt="" style="width:50px;height:50px;">
-    <div><h4>اسم الغرفة الصفية  <img :src="publicroomLogo" alt="" style="width:20px;height:20px;"></h4></div>
+    <div><h4>{{room.name}} <img :src="publicroomLogo" alt="" style="width:20px;height:20px;"></h4></div>
   </a>
   </div> 
 </div>
@@ -106,23 +113,23 @@
 <div id="changedata">
     <div id="boxchange">
         <div style="display: flex;">
-            <div style="margin-right:1%"><a href="#studentinfo"><img :src="backLogo" alt="" style="width:32px;height:32px; margin-left:-80px"></a></div>
+            <div style="margin-right:1%"><a href="#studentinfo"><img :src="backLogo" alt="" style="width:32px;height:32px; margin-left:-65px"></a></div>
         <div  class="exit"> <a href="#">
                 <img :src="cancelLogo" alt="" style="width:30px;height:30px;">
             </a></div>
              
         </div>
         <div class="studentnewdata">
-<div style="display: flex; border: 3px solid #A0BACC;  border-radius: 10px;">
+<div style="display: flex; border: 3px solid #939b62;  border-radius: 10px;">
      <input type="submit" class="save" name="" value="save">
             <input type="text" placeholder="الاسم الجديد">
             
 </div>
-<div style="display: flex; border: 3px solid #A0BACC;  border-radius: 10px;">
+<div style="display: flex; border: 3px solid #939b62;  border-radius: 10px;">
     <input type="submit" class="save" name="" value="save">
             <input type="text" placeholder="البريد الالكتروني الجديد">
 </div>
-<div style=" border: 3px solid #A0BACC;  border-radius: 10px;">
+<div style=" border: 3px solid #939b62;  border-radius: 10px;">
             <input type="password" name="password" placeholder="كلمة المرور القديمة" required
                 title="please fill the password field">
             <input type="password" name="password" placeholder="كلمة المرور الجديدة" required
@@ -203,7 +210,7 @@ export default {
               privateLogo:require('@/assets/privateroom.png'),
                classroomLogo:require('@/assets/classroom.png'),
                   publicroomLogo:require('@/assets/publicroom.png'),
-            chatIcon:require('@/assets/chatIcon.jpg'),
+            chat:require('@/assets/chat.png'),
             rooms:{},
             nameDB:'',
             classDB:'',
@@ -226,7 +233,7 @@ export default {
                 }
             }).then((res)=>{
                 console.info(res);
-                window.localStorage.removeItem('userToken');
+                window.localStorage.clear();
                 window.Echo.disconnect();
                 this.$router.push('/');
             }).catch((err)=>{
@@ -239,7 +246,7 @@ export default {
             });
         },
         showRoom(id){
-            window.localStorage.setItem('roomIndex',''+id);
+            window.localStorage.setItem('roomIndex',id);
             this.$router.push('/studentroom');
         },
         getInfo(){
@@ -379,32 +386,15 @@ export default {
 </script>
 
 
-<style>
- ul {
-     height: 60px;
-     width: 99%;
-        list-style-type: none;
-        margin: -1%;
-        padding: 1%;
-        overflow: hidden;
-        background-color: #08546c;
-
-    }
+<style scoped>
 
     .navs {
-
         margin-right: 30%;
-
-
     }
-
     li {
-
         float: right;
     }
-
     li a {
-
         display: block;
         color: white;
         text-align: center;
@@ -412,17 +402,12 @@ export default {
         text-decoration: none;
        
     }
-
     li a:hover:not(.active) {
-        background-color: #111;
+        background-color: #ffb26b;
     }
-
     .exit {
-
         margin-left: 104%;
-
     }
-
     #studentinfo {
         background: #f4f4f480;
         width: 100%;
@@ -432,7 +417,6 @@ export default {
         left: 0;
         display: none;
     }
-
     #boxs {
         height: 85%;
         width: 50%;
@@ -441,23 +425,20 @@ export default {
         padding-left: 5%;
         padding-right: 5%;
         padding-bottom: 5%;
-
-        border: 3px solid #A0BACC;
+        border: 3px solid #939b62;
         border-radius: 10px;
-        color: #3498db;
+        color: #2c2828;
         position: absolute;
         top: 10px;
         right: 10px;
         bottom: 10px;
         left: 10px;
         margin: auto;
-      background: #022534;
+      background: #ffd56b;
     }
-
     #studentinfo:target {
         display: block;
     }
-
     .changed {
         width: 130px;
         height: 50px;
@@ -465,38 +446,34 @@ export default {
         display: block;
         margin: 30px auto;
         text-align: center;
-        border: 2px solid #2ecc71;
+        border: 2px solid #939b62;
         padding: 14px 40px;
         outline: none;
-        color: white;
+        color: rgb(46, 44, 44);
         border-radius: 24px;
         transition: 0.25s;
         cursor: pointer;
         text-decoration:none;
     }
-
     .changed:hover {
-        background: #2ecc71;
+        background:#939b62;
     }
-
        .save {
         background: none;
         display: block;
         margin: 30px auto;
         text-align: center;
-        border: 2px solid #2ecc71;
+        border: 2px solid #939b62;
         padding: 14px 40px;
         outline: none;
-        color: white;
+        color: rgb(7, 6, 6);
         border-radius: 24px;
         transition: 0.25s;
         cursor: pointer;
     }
-
     .save:hover {
-        background: #2ecc71;
+        background: #939b62;
     }
-
     #pic1 {
         height: 25%;
         width: 25%;
@@ -505,16 +482,12 @@ export default {
         position: center;
         padding: 1%;
         margin: 1% auto;
-
-
     }
-
     .upload-btn-wrapper {
         position: relative;
         overflow: hidden;
         display: inline-block;
     }
-
     .btn {
         border: 2px solid gray;
         color: gray;
@@ -524,7 +497,6 @@ export default {
         font-size: 15px;
         font-weight: bold;
     }
-
     .upload-btn-wrapper input[type=file] {
         font-size: 100px;
         position: absolute;
@@ -532,7 +504,6 @@ export default {
         top: 0;
         opacity: 0;
     }
-
     .box input[type="button"] {
         border: 0;
         background: none;
@@ -547,20 +518,16 @@ export default {
         transition: 0.25s;
         cursor: pointer;
     }
-
     .box input[type="button"]:hover {
         background: #2ecc71;
     }
-
     .options {
         margin-top: 15px;
         color: #f4f4f480;
         overflow: hidden;
         font-size: 14px;
     }
-
    
-
     #changedata {
         background: #f4f4f480;
         width: 100%;
@@ -570,46 +537,28 @@ export default {
         left: 0;
         display: none;
     }
-
     #boxchange {
-        height: 84%;
-        width: 40%;
-        text-align: center;
-        padding-top: 5px;
-        padding-left: 5%;
-        padding-right: 5%;
-        padding-bottom: 5%;
-        border: 3px solid #A0BACC;
-        border-radius: 10px;
-        color: #3498db;
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        bottom: 10px;
-        left: 10px;
-        margin: auto;
-        background: #022534;
+       height: 85%;
+    width: 40%;
+    text-align: center;
+    padding-top: 5px;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-bottom: 5%;
+    border: 3px solid #939b62;
+    border-radius: 10px;
+    color: #1e1f20;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
+    margin: auto;
+    background: #ffd56b;
     }
-
     #changedata:target {
         display: block;
     }
-
-    .close {
-        background: none;
-        display: block;
-        margin: 30px auto;
-        text-align: center;
-        border: 2px solid #2ecc71;
-        padding: 14px 40px;
-        outline: none;
-        color: white;
-        border-radius: 24px;
-        transition: 0.25s;
-        cursor: pointer;
-        width: 100px;
-    }
-
  
     .studentnewdata input[type="text"] {
         border: 0;
@@ -617,74 +566,69 @@ export default {
         display: block;
         margin: 30px auto;
         text-align: center;
-        border: 2px solid #3498db;
+        border: 2px solid #939b62;
         padding: 14px 10px;
         width: 50%;
         outline: none;
-        color: white;
+        color: black;
         border-radius: 24px;
         transition: 0.25s;
     }
-
     .studentnewdata input[type="text"]:focus {
         
-        border-color: #2ecc71;
+        border-color: #ff7b54;
     }
-
-
-
     .studentnewdata input[type="password"] {
         border: 0;
         background: none;
         display: block;
         margin: 30px auto;
         text-align: center;
-        border: 2px solid #3498db;
+        border: 2px solid #939b62;
         padding: 14px 10px;
         width: 50%;
         outline: none;
-        color: white;
+        color: black;
         border-radius: 24px;
         transition: 0.25s;
     }
-
     .studentnewdata input[type="password"]:focus {
         
-        border-color: #2ecc71;
+        border-color: #ff7b54;
     }
-
     .dropbtn {
         border: 0;
         background: none;
         display: block;
-
         text-align: center;
-        border: 2px solid #3498db;
+        border: 2px solid #939b62;
         padding: 14px 10px;
         width: 20%;
         outline: none;
-        color: #22202080;
+        color: #3498db;
         border-radius: 24px;
         transition: 0.25s;
     }
-
     .findclass input[type="text"] {
         border: 0;
         background: none;
         display: block;
         margin: 30px auto;
         text-align: center;
-        border: 2px solid #3498db;
+        border: 2px solid #939b62;
         padding: 14px 10px;
         width: 30%;
         outline: none;
-        color: white;
+        color: black;
         border-radius: 24px;
         transition: 0.25s;
     }
-
     .findclass input[type="text"]:focus {
         width: 40%;
-        border-color: #2ecc71;
+        border-color: #ff7b54;
     }
+      #st{ background-image: url('../assets/green.jpg');
+   background-repeat: no-repeat;}
+    #st2{ background-image: url('../assets/black.jpg');
+   background-repeat: no-repeat;}
 </style>

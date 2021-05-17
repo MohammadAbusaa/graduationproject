@@ -2,31 +2,31 @@
 <link  href="https://www.w3schools.com/w3css/4/w3.css">
   <ul>
     <div class="nav3">
-      <li style="margin-right:-56%;  background-color: #08546c;">
+      <li style="margin-right:-56%;  background-color: #939b62;">
         <a  style="background-color:  #111;" class="active" @click="showRooms">
-          <div>
-            الصفوف التي انشأتها
+          <div style="display:flex;">
+            <div style="margin-top:15px;">الصفوف التي انشأتها</div> 
             <img :src="calssesLogo" alt="" style="width:50px;height:50px;" />
           </div>
         </a>
       </li>
-      <li style=" margin-right:-35%;  background-color: #08546c;">
+      <li style=" margin-right:-35%;  background-color: #939b62;">
         <a href="#newclasses" >
-          <div>
-            انشاء غرفة صفية
+          <div style="display:flex;">
+            <div style="margin-top:15px;">انشاء غرفة صفية</div>
             <img :src="addeventLogo" alt="" style="width:50px;height:50px;" />
           </div>
         </a>
       </li>
-      <li style=" margin-right:-14%;  background-color: #08546c;">
+      <li style=" margin-right:-14%;  background-color: #939b62;">
         <a href="#teachertinfo" @click="showInfo">
-          <div>
-            المعلومات الشخصية
+          <div style="display:flex;">
+                <div style="margin-top:15px;">المعلومات الشخصية</div>
             <img :src="infoLogo" alt="" style="width:50px;height:50px;" />
           </div>
         </a>
       </li>
-       <li style="margin-right: 75%;  background-color: #08546c;"><a class="" @click="logoutUser">
+       <li style="margin-right: 75%;  background-color: #939b62;"><a class="" @click="logoutUser">
                 <div >تسجيل الخروج
                     <img :src="logoutLogo" alt="" style="width:25px;height:25px;">
                 </div>
@@ -34,7 +34,7 @@
     </div>
   </ul>
  
-<div class="w3-container w3-hide-small w3-red" style=" height: 70%; width: 90%;  position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%); text-align: center; border: 3px solid #022534; border-radius: 10px;">
+<div id="my" class="w3-container w3-hide-small w3-red" style=" height: 70%; width: 90%;  position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%); text-align: center; border-radius: 10px;">
       <div style="display: flex;">     
 <div v-for="room in teacherRooms" :key="room">
   <a @click="gotoRoom(room.id)"  class="" style="padding:30px"  v-if="!room.type">
@@ -85,12 +85,19 @@
         <option value="socialStudies">اجتماعيات</option>
       </select>
       <p>:نوع الغرفة الصفية</p>
-    
-     <input type="radio" id="radio1" name="roomtype" value="public" @click="onChange($event)" />
-      <label for="public">عام</label>
-      <input type="radio" id="radio2" name="roomtype" value="private" @click="onChange($event)" />
-      <label for="private">خاص</label>
-      <input type="submit" id="private" @click.prevent="sendRoomData" class="save" name="" value="انشاء" />
+      <div>
+        <label for="public">عام</label>
+             <input type="radio" id="radio1" name="roomtype" value="public" @click="onChange($event)" />
+      
+      </div>
+      <div>
+        <label for="private">خاص</label>
+              <input type="radio" id="radio2" name="roomtype" value="private" @click="onChange($event)" />
+      
+      </div>
+      <a href="#">
+        <input type="submit" id="private" @click="sendRoomData" class="save" name="" value="انشاء" />
+      </a>
     </div>
   </div>
 
@@ -102,17 +109,17 @@
         </a>
       </div>
       <div class="changeteacherdata">
-       <div style="display: flex; border: 3px solid #A0BACC;  border-radius: 10px;">
+       <div style="display: flex; border: 3px solid #939b62;  border-radius: 10px;">
          <input type="submit" @click.prevent="sendNewName" class="save" name="" value="save" :disabled="newName.length==0" />
         <input type="text" placeholder="الاسم الجديد" v-model="newName" />
         
        </div>
-       <div style="display: flex; border: 3px solid #A0BACC;  border-radius: 10px;">
+       <div style="display: flex; border: 3px solid #939b62;  border-radius: 10px;">
          <input type="submit" @click.prevent="sendNewEmail" class="save" name="" value="save" :disabled="newEmail.length==0" />
         <input type="text" placeholder="البريد الالكتروني الجديد" v-model="newEmail" />
          
        </div>
-       <div style=" border: 3px solid #A0BACC;  border-radius: 10px;">
+       <div style=" border: 3px solid #939b62;  border-radius: 10px;">
         <input
           type="password"
           name="password"
@@ -149,9 +156,10 @@
                 <img :src="cancelLogo" alt="" style="width:30px;height:30px;">
 
             </a></div>
-
+            
+    <img src="" alt="" style="width:150px;height:100px; padding:5px; margin-left:-80px; ">
     <div>
-            <div id="pic1" style=""> <img id="i1" width="100%" height="100"> </div>
+        
             <div class="card">
 
                 <div class="upload-btn-wrapper">
@@ -159,19 +167,19 @@
                     <input type="file">
                 </div>
                   </div>
-                  <div style=" border: 3px solid #A0BACC;border-radius: 10px;">
+                  <div style=" border: 3px solid #939b62;border-radius: 10px;">
                   <div style=" display: flex;">
-                  <div style="margin-left:15px;"><img :src="nameLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></div><div><h3 style="margin-right:-20%;">{{NameDB}}</h3></div>
+                  <div style="margin-left:15px;"><img :src="nameLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></div><div><h3 style="margin-right:-20%;">محمد يحيى</h3></div>
                  
                   </div>
 
                   <div style=" display: flex;">
-                  <div style="margin-left:15px;"><img :src="emailLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></div><div><h3 style="margin-right:-20%;">{{EmailDB}}</h3></div>
+                  <div style="margin-left:15px;"><img :src="emailLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></div><div><h3 style="margin-right:-20%;">Mohammadyahya.com</h3></div>
                   
                   </div>
 
                   <div style=" display: flex;">
-                  <div style="margin-left:15px;"><img :src="jobLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></div><div><h3 style="margin-right:-20%;"> {{JobDB}} </h3></div>
+                  <div style="margin-left:15px;"><img :src="jobLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></div><div><h3 style="margin-right:-20%;"> طالب </h3></div>
                 
                   </div>
                   <div style=" display: flex;">
@@ -282,6 +290,7 @@ import axiosinst from '../axios';
                 }
         }).then((res)=>{
           console.info(res.data);
+          this.$router.go(0);
         }).catch((err)=>{
           console.error(err);
           if(err.response){
@@ -389,6 +398,7 @@ import axiosinst from '../axios';
                 }
             }).then((res)=>{
                 console.info(res);
+                window.localStorage.clear();
                 this.$router.push('/');
             }).catch((err)=>{
                 console.error(err);
@@ -464,34 +474,25 @@ import axiosinst from '../axios';
   };
 </script>
 
-<style>
-body{
-   background:#f6f9fa ;
-}
-  ul {
-    list-style-type: none;
-    margin: -1%;
-    padding: 1%;
-    overflow: hidden;
-    background-color: #08546c;
-  }
+<style scoped >
+
+
   .nav3 {
     margin-right: 35%;
+   
   }
-
   li {
     float: right;
+    
   }
-
   li a {
     display: block;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
   }
-
   li a:hover:not(.active) {
-    background-color: #111;
+    background-color: #ffb26b;
   }
   .exit {
     margin-left: 104%;
@@ -516,51 +517,54 @@ body{
         padding-left: 5%;
         padding-right: 5%;
         padding-bottom: 5%;
-        border: 3px solid #A0BACC;
+        border: 3px solid #939b62;
         border-radius: 10px;
-        color: #3498db;
+        color: #2c2828;
         position: absolute;
         top: 10px;
         right: 10px;
         bottom: 10px;
         left: 10px;
         margin: auto;
-      background: #022534;
+      background: #ffd56b;
   }
-
+  #my{ background-image: url('../assets/green.jpg');
+   background-repeat: no-repeat;
+  
+  background-size: cover;
+  width: 100%;}
   .changed {
     background: none;
     display: block;
     margin: 30px auto;
     text-align: center;
-    border: 2px solid #2ecc71;
+    border: 2px solid #939b62;
     padding: 14px 40px;
     outline: none;
-    color: white;
+    color: rgb(15, 15, 15);
     border-radius: 24px;
     transition: 0.25s;
     cursor: pointer;
     width: 100px;
   }
   .changed:hover {
-    background: #2ecc71;
+    background: #939b62;
   }
-
   .save {
     background: none;
     display: block;
     margin: 30px auto;
     text-align: center;
-    border: 2px solid #2ecc71;
+    border: 2px solid #939b62;
     padding: 14px 40px;
     outline: none;
-    color: white;
+    color: rgb(46, 42, 42);
     border-radius: 24px;
     transition: 0.25s;
     cursor: pointer;
   }
   .save:hover {
-    background: #2ecc71;
+    background: #939b62;
   }
   #pic1 {
     height: 25%;
@@ -571,7 +575,6 @@ body{
     margin: 1% auto;
   }
  
-
   .btn {
     border: 2px solid gray;
     color: gray;
@@ -581,7 +584,6 @@ body{
     font-size: 15px;
     font-weight: bold;
   }
-
   .upload-btn-wrapper input[type="file"] {
     font-size: 100px;
     position: absolute;
@@ -594,14 +596,13 @@ body{
     overflow: hidden;
     display: inline-block;
   }
-
   .boxcreate input[type="button"] {
     border: 0;
     background: none;
     display: block;
     margin: 11px auto;
     text-align: center;
-    border: 2px solid #2ecc71;
+    border: 2px solid #939b62;
     padding: 14px 40px;
     outline: none;
     color: #34495e;
@@ -610,7 +611,7 @@ body{
     cursor: pointer;
   }
   .boxcreate input[type="button"]:hover {
-    background: #2ecc71;
+    background: #939b62;
   }
   .options {
     margin-top: 15px;
@@ -627,7 +628,6 @@ body{
     left: 0;
     display: none;
   }
-
   #creatnewclass:target {
     display: block;
   }
@@ -644,15 +644,13 @@ body{
   #newclasses:target {
     display: block;
   }
-
   .dropbtn {
     border: 0;
     margin-left: 40%;
     background: none;
     display: block;
-
     text-align: center;
-    border: 2px solid #3498db;
+    border: 2px solid #939b62;
     padding: 14px 10px;
     width: 20%;
     outline: none;
@@ -660,34 +658,24 @@ body{
     border-radius: 24px;
     transition: 0.25s;
   }
-  .newclass {
-    height: 70%;
-    width: 50%;
-    position: absolute;
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    border: 3px solid #022534;
-    border-radius: 10px;
-  }
+ 
   .roomname input[type="text"] {
     border: 0;
     background: none;
     display: block;
     margin: 30px auto;
     text-align: center;
-    border: 2px solid #3498db;
+    border: 2px solid #939b62;
     padding: 14px 10px;
     width: 30%;
     outline: none;
-    color: white;
+    color: black;
     border-radius: 24px;
     transition: 0.25s;
   }
   .roomname input[type="text"]:focus {
     width: 50%;
-    border-color: #2ecc71;
+    border-color: #ff7b54;
   }
   ul {
    height: 60px;
@@ -696,7 +684,7 @@ body{
         margin: -1%;
         padding: 1%;
         overflow: hidden;
-        background-color: #08546c;
+        background-color: #939b62;
   }
  
   #myclasses {
@@ -709,23 +697,23 @@ body{
     display: none;
   }
   #boxcreate {
-    height: 80%;
-    width: 50%;
+    height: 60%;
+    width: 40%;
     text-align: center;
     padding-top: 5px;
     padding-left: 5%;
     padding-right: 5%;
     padding-bottom: 5%;
-    border: 3px solid #a0bacc;
+    border: 3px solid #939b62;
     border-radius: 10px;
-    color: #3498db;
+    color: #2e3133;
     position: absolute;
     top: 10px;
     right: 10px;
     bottom: 10px;
     left: 10px;
     margin: auto;
-    background: #a0bacc;
+    background: #ffd56b;
   }
   #myclasses:target {
     display: block;
@@ -740,45 +728,44 @@ body{
     display: none;
   }
   #boxchange {
-    height: 70%;
+    height: 85%;
     width: 40%;
     text-align: center;
     padding-top: 5px;
     padding-left: 5%;
     padding-right: 5%;
     padding-bottom: 5%;
-    border: 3px solid #a0bacc;
+    border: 3px solid #939b62;
     border-radius: 10px;
-    color: #3498db;
+    color: #1e1f20;
     position: absolute;
     top: 10px;
     right: 10px;
     bottom: 10px;
     left: 10px;
     margin: auto;
-    background: #022534;
+    background: #ffd56b;
   }
   #changedata:target {
     display: block;
   }
-
   .changeteacherdata input[type="text"] {
     border: 0;
     background: none;
     display: block;
     margin: 30px auto;
     text-align: center;
-    border: 2px solid #3498db;
+    border: 2px solid #939b62;
     padding: 14px 10px;
     width: 50%;
     outline: none;
-    color: white;
+    color: black;
     border-radius: 24px;
     transition: 0.25s;
   }
   .changeteacherdata input[type="text"]:focus {
   
-    border-color: #2ecc71;
+    border-color: #ff7b54;
   }
   .changeteacherdata input[type="password"] {
     border: 0;
@@ -786,29 +773,16 @@ body{
     display: block;
     margin: 30px auto;
     text-align: center;
-    border: 2px solid #3498db;
+    border: 2px solid #939b62;
     padding: 14px 10px;
     width: 50%;
     outline: none;
-    color: white;
+    color: black;
     border-radius: 24px;
     transition: 0.25s;
   }
   .changeteacherdata input[type="password"]:focus {
-
-    border-color: #2ecc71;
+    border-color: #ff7b54;
   }
   
-  .newclass {
-    height: 70%;
-    width: 50%;
-    position: absolute;
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    text-align: center;
-    border: 3px solid #022534;
-    border-radius: 10px;
-  }
 </style>

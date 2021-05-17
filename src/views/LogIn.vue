@@ -1,31 +1,39 @@
 <template>
- <div class="box">
+<body>
+   <div class="box">
+  <img :src=" user" alt="" style="width:50px;height:50px;">
 
-
-    <input type="text"  name="reg" placeholder="Email Address" id="reg" v-model="email">
-    <input type="password" name="password" placeholder="Password" v-model="password" required title="please fill the password field">
+    <input type="text"  name="reg" placeholder="البريد الالكتروني" id="reg" v-model="email">
+    <input type="password" name="password" placeholder="كلمة السر" v-model="password" required title="please fill the password field">
+    
     <div class="options">
-        <label class="remember-me">
+       <a href="#blackout" data-toggle="box" data-target="#blackout" style=" margin-left:60px;" >هل نسيت كلمة السر؟</a>
+        <label class="remember-me" style="color:black; ">
               <span class="checkbox">
                 <input type="checkbox" v-model="remember">
                 <span class="checked"></span>
+        حفظ الحساب
               </span>
-            Remember me
+            
         </label>
-        &nbsp;
-        &nbsp;
-        &nbsp;
-        &nbsp;
-        <a href="#blackout" data-toggle="box" data-target="#blackout"  >Forgot Your Password !</a>
+        
+        
+      
+       
 
     </div>
-    <input @click.prevent="login" type="submit" name="submit" value="Login" >
+    <input @click.prevent="login" type="submit" name="submit" value="تسجيل الدخول" >
 </div >
 
 
 <div id="blackout">
     <div id="box">
-        Forget your Password!
+              <div class="exit">
+          <a href="#">
+                  <img :src="cancelLogo" alt="" style="width:30px;height:30px;" />
+                </a>
+                </div>
+        نسيت كلمة المرور
         <form class="a" action="forget.php" method="post">
             <div>
             
@@ -41,10 +49,11 @@
 
        
 
-        <a href="#" class="close">Close window</a>
+        
     </div>
 </div>
 
+</body>
 
 </template>
 
@@ -57,6 +66,8 @@ export default {
     name: 'LogIn',
     data:function(){
       return{
+             user:require('@/assets/user.png'),
+               cancelLogo:require('@/assets/cancel.png'),
         remember:false,
         email:"",
         password:"",
@@ -87,7 +98,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
 
 body{
   margin: 0;
@@ -105,9 +116,9 @@ body{
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
-  background: #08546c;
+  background: #f4f4f480;
   text-align: center;
-  border: 3px solid #022534;
+  border: 3px solid #939b62;
   border-radius: 10px;
 }
 
@@ -117,7 +128,7 @@ body{
   display: block;
   margin: 30px auto;
   text-align: center;
-  border: 2px solid #3498db;
+  border: 2px solid #939b62;
   padding: 14px 10px;
   width: 50%;
   outline: none;
@@ -127,7 +138,7 @@ body{
 }
 .box input[type = "text"]:focus,.box input[type = "password"]:focus{
   width: 80%;
-  border-color: #2ecc71;
+  border-color: #ff7b54;
 }
 .box input[type = "submit"]{
   border:0;
@@ -135,16 +146,16 @@ body{
   display: block;
   margin: 50px auto;
   text-align: center;
-  border: 2px solid #2ecc71;
+  border: 2px solid #939b62;
   padding: 14px 40px;
   outline: none;
-  color: white;
+  color: rgb(3, 3, 3);
   border-radius: 24px;
   transition: 0.25s;
   cursor: pointer;
 }
 .box input[type = "submit"]:hover{
-  background: #2ecc71;
+  background: #939b62;
 }
 .options{
   margin-top: 15px;
@@ -169,40 +180,26 @@ body{
         width: 19%;
         text-align: center;
         padding: 50px;
-        border: 3px solid #A0BACC;;
+        border: 3px solid #939b62;
         border-radius: 10px;
-        color: #3498db;
+        color: black;
         position: absolute;
         top: 10px;
         right: 10px;
         bottom: 10px;
         left: 10px;
         margin: auto;
-        background: #022534;
+        background: #ffd56b;
       }
       #blackout:target {display: block;}
-      .close {
-        background: none;
-        display: block;
-        margin: 30px auto;
-        text-align: center;
-        border: 2px solid #2ecc71;
-        padding: 14px 40px;
-        outline: none;
-        color: white;
-        border-radius: 24px;
-        transition: 0.25s;
-        cursor: pointer;
-        width: 100px;
-      }
-      .close:hover {background: #2ecc71;}
+
 .a input[type = "text"]{
   border:0;
   background: none;
   display: block;
   margin: 30px auto;
   text-align: center;
-  border: 2px solid #3498db;
+  border: 2px solid #939b62;
   padding: 14px 10px;
   width: 50%;
   outline: none;
@@ -212,20 +209,40 @@ body{
 }
 .a input[type = "text"]:focus{
   width: 80%;
-  border-color: #2ecc71;
+  border-color: #ff7b54;
 }
 .save {
   background: none;
   display: block;
   margin: 30px auto;
   text-align: center;
-  border: 2px solid #2ecc71;
+  border: 2px solid #939b62;
   padding: 14px 40px;
   outline: none;
-  color: white;
+    color: black;
   border-radius: 24px;
   transition: 0.25s;
   cursor: pointer;
 }
-.save:hover {background: #2ecc71;}
+.save:hover {background: #939b62;}
+
+
+
+
+/* visited link */
+a:visited {
+  color: blue;
+}
+
+/* mouse over link */
+a:hover {
+  color: red;
+}
+
+/* selected link */
+ .exit {
+    margin-left: 104%;
+    margin-top: -40px;
+  }
+
 </style>
