@@ -10,6 +10,8 @@ import student from "../views/student.vue";
 import chat from "../views/chat.vue";
 import teacherroom from "../views/teacherroom.vue";
 import games from '../views/games.vue';
+import stugame from '../views/stugame.vue';
+import parents from '../views/parents.vue';
 const routes = [
   {
     path: "/",
@@ -67,6 +69,16 @@ const routes = [
     name:'games',
     component:games,
   },
+  {
+    path:'/stugame',
+    name:'stugame',
+    component:stugame,
+  },
+  {
+    path:'/parents',
+    name:'parents',
+    component:parents,
+  }
 ];
 
 const router = createRouter({

@@ -1,22 +1,24 @@
 <template>
 <link  href="https://www.w3schools.com/w3css/4/w3.css">
-<ul style=" height:50px;   list-style-type: none; margin: -1%; padding: 1%; overflow: hidden;  background-color: #939b62;">
+<ul style=" height:60px;   list-style-type: none; margin: -1%; padding: 1%; overflow: hidden;  background-color: #939b62;">
     <div class="navs" style="">
 
         <div style="">
             <li style="margin-right:-41%;  background-color:#939b62; "><a href="#studentinfo">
-                    <div style="display:flex;">
-                        <div style="margin-top:15px;">المعلومات الشخصية</div>
+                    <div>
+                        
                         <img :src="s1Logo" alt="" style="width:35px;height:35px;">
+                        <div>المعلومات الشخصية</div>
                     </div>
                 </a></li>
         </div>
         <li style=" margin-right:-23%;  background-color: #939b62;">
-                <a @click="this.$router.push('http://localhost:8080/chat')">
+                <a @click="$router.push('/chat')">
                 
-                    <div style="display:flex;"> 
-                       <div style="margin-top:15px;">  المحادثات</div>
+                    <div> 
+                       
                         <img :src="chat" alt="" style="width:35px;height:35px;" >
+                        <div>  المحادثات</div>
                        
                     </div>
                     
@@ -33,18 +35,18 @@
     </div>
 </ul>
 <div id="st" class="findclass"
-    style="  height:100%;  width: 70%;  text-align: center;  border: 3px solid #939b62;border-radius: 10px; color:#3498db;  margin-top: 4%; margin-left:14%;">
+    style="  height:420px;  width: 70%;  text-align: center;  border: 3px solid #939b62;border-radius: 10px; color:white;  margin-top: 4%; margin-left:14%;">
 
     <div>
         <img :src="s2Logo" alt="" style="width:50px;height:50px;">
         <h3>اختيار صف</h3>
     </div>
 
-    <input type="text" placeholder="البحث من خلال اسم الصف" style=" padding:10px;  " v-model="roomName" @change="searchRooms">
+    <input type="text" placeholder="البحث من خلال اسم الصف" style=" padding:10px; color:white; " v-model="roomName" @change="searchRooms">
     <div style=" margin-top:-4%; width: 100%;  display: flex;">
         <div style=" flex-grow: 3; margin-right: 10%;">
             <label style="margin-right:4%;">البحث حسب المادة</label>
-            <select class="dropbtn" name="usertype" id="usertypes" style="width:50% ;  margin-left: 20%;  " v-model="roomSubject" @change="searchRooms">
+            <select class="dropbtn" name="usertype" id="usertypes" style="width:50% ;  margin-left: 20%; color:white; " v-model="roomSubject" @change="searchRooms">
                 <option value="science">علوم</option>
                 <option value="maths">رياضيات</option>
                 <option value="arabic">اللغة العربية</option>
@@ -56,7 +58,7 @@
         </div>
         <div style=" flex-grow: 3;   ">
             <label style="margin-right:-7%;">البحث حسب الصف</label>
-            <select class="dropbtn" name="usertype" id="usertypes " style="width:50%  ;  margin-left: 30%;" v-model="roomClass" @change="searchRooms">
+            <select class="dropbtn" name="usertype" id="usertypes " style="width:50%  ;  margin-left: 30%; color:white;" v-model="roomClass" @change="searchRooms">
                 <option value="one">الأول</option>
                 <option value="two">الثاني</option>
                 <option value="three">الثالث</option>
@@ -68,11 +70,11 @@
  
         </div>
     </div>
-           <div class="w3-container w3-hide-small w3-red" >
-      <div style="display: flex;" v-for="DBroom in roomsDB" :key="DBroom" @click="registerStudent(DBroom.id)">     
+           <div class="w3-container w3-hide-small w3-red" style="display: flex;" >
+      <div style="display: flex;" v-for="DBroom in roomsDB" :key="DBroom" @click="showBox(DBroom)">     
            
     
-  <a  class="" style="padding:30px" v-if="DBroom.type"   >
+  <a  class="" style="padding:30px" v-if="!DBroom.type"   >
     <img :src="classroomLogo" alt="" style="width:50px;height:50px;">
     <div><h4>{{DBroom.name}} <img :src="privateLogo" alt="" style="width:20px;height:20px;"></h4></div>
   </a>
@@ -121,56 +123,57 @@
         </div>
         <div class="studentnewdata">
 <div style="display: flex; border: 3px solid #939b62;  border-radius: 10px;">
-     <input type="submit" class="save" name="" value="save">
-            <input type="text" placeholder="الاسم الجديد">
+     <input type="submit" class="save" name="" value="save" @click.prevent='updateName'>
+            <input type="text" placeholder="الاسم الجديد" v-model="newName">
             
 </div>
 <div style="display: flex; border: 3px solid #939b62;  border-radius: 10px;">
-    <input type="submit" class="save" name="" value="save">
-            <input type="text" placeholder="البريد الالكتروني الجديد">
+    <input type="submit" class="save" name="" value="save" @click.prevent='updateEmail'>
+            <input type="text" placeholder="البريد الالكتروني الجديد" v-model="newEmail">
 </div>
 <div style=" border: 3px solid #939b62;  border-radius: 10px;">
             <input type="password" name="password" placeholder="كلمة المرور القديمة" required
-                title="please fill the password field">
+            v-model="oldPass"    title="please fill the password field">
             <input type="password" name="password" placeholder="كلمة المرور الجديدة" required
-                title="please fill the password field">
+            v-model="newPass"    title="please fill the password field">
             <input type="password" name="password" placeholder="تأكيد كلمة المرور" required
-                title="please fill the password field">
-            <input type="submit" class="save" name="" value="save">
+            v-model="confPass"    title="please fill the password field">
+            <input type="submit" class="save" name="" value="save" @click.prevent='updatePass'>
 </div>
         </div>
 
     </div>
 </div>
-<div id="studentinfo">
+  <div id="studentinfo">
     <div id="boxs">
         <div class="exit"> <a href="#">
                 <img :src="cancelLogo" alt="" style="width:30px;height:30px;">
 
             </a></div>
-
+            
+    <img :src="imgDB" alt="" style="width:150px;height:100px; padding:5px; ">
     <div>
-            <div id="pic1" style="width=100px; height=100px;"> <img id="i1" > </div>
+        
             <div class="card">
 
                 <div class="upload-btn-wrapper">
-                    <button class="btn" >Upload your pic</button>
-                    <input type="file" @change="uploadPic" ref="personPic">
+                    <button class="btn" type="submit" id="submit" name="submit">Upload your pic</button>
+                    <input ref="personPic" type="file">
                 </div>
                   </div>
-                  <div style=" border: 3px solid #A0BACC;border-radius: 10px;">
+                  <div style=" border: 3px solid #939b62;border-radius: 10px;">
                   <div style=" display: flex;">
-                  <div style="margin-left:15px;"><img :src="nameLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></div><div><h3 style="margin-right:-20%;">محمد يحيى</h3></div>
+                  <div style="margin-left:15px;"><img :src="nameLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></div><div><h3 style="margin-right:-20%;">{{nameDB}}</h3></div>
                  
                   </div>
 
                   <div style=" display: flex;">
-                  <div style="margin-left:15px;"><img :src="emailLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></div><div><h3 style="margin-right:-20%;">Mohammadyahya.com</h3></div>
+                  <div style="margin-left:15px;"><img :src="emailLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></div><div><h3 style="margin-right:-20%;">{{emailDB}}</h3></div>
                   
                   </div>
 
                   <div style=" display: flex;">
-                  <div style="margin-left:15px;"><img :src="jobLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></div><div><h3 style="margin-right:-20%;"> طالب </h3></div>
+                  <div style="margin-left:15px;"><img :src="jobLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></div><div><h3 style="margin-right:-20%;"> {{classDB}} </h3></div>
                 
                   </div>
                   <div style=" display: flex;">
@@ -180,11 +183,29 @@
 
                   
                    </div>
-                <a href="#changedata" class="changed " style="margin-top:4px;">change data <img :src="editLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></a>
+                <a href="#changedata" class="changed  " >change data <img :src="editLogo" alt="" style="width:30px;height:30px; margin-top:11px;"></a>
 
             </div>
         </div>
     </div>
+     <div id="privateroom" >
+            <div id="boxprivateroom"  >
+              <div class="exit">
+                <a href="#">
+                  <img :src="cancelLogo" alt="" style="width:30px;height:30px;" />
+                </a>
+              </div>
+              <div>
+                  <h2>{{currRoom.name}}:اسم الغرفة</h2>
+              </div>
+              <div>
+                  <h2>{{currRoom.teacher}}: صاحب الغرفة الصفية</h2>
+              </div>
+            <input style="margin-left:0px;" type="text" v-model="roomPass" placeholder="كلمة سر الغرفة" v-if="!currRoom.type" />
+                <input   type="submit" class="done" name="" value="دخول" @click.prevent='registerStudent(currRoom.id)' />
+  
+            </div>
+          </div>
 
 
 </template>
@@ -223,9 +244,64 @@ export default {
             errs:[],
             allowedTypes:['image/png','image/jpg','image/jpeg'],
             imgDB:'',
+            currRoom:{},
+            roomPass:'',
+            newName:'',
+            newEmail:'',
+            newPass:'',
+            oldPass:'',
+            confPass:'',
+            personalPicture:'',
         }
     },
     methods: {
+        updateName(){
+            axiosinst.post('http://localhost:8000/api/sendNewName',{
+                name:this.newName,
+            },{
+        headers:{
+          'Authorization':'Bearer '+window.localStorage.getItem('userToken'),
+        }
+      }).then(()=>{
+        this.$router.go(0);
+      }).catch((err)=>{
+        if(err.response){
+          if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
+        }
+      });
+        },
+        updateEmail(){
+            axiosinst.post('http://localhost:8000/api/sendNewEmail',{
+                email:this.newEmail,
+            },{
+        headers:{
+          'Authorization':'Bearer '+window.localStorage.getItem('userToken'),
+        }
+      }).then(()=>{
+        this.$router.go(0);
+      }).catch((err)=>{
+        if(err.response){
+          if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
+        }
+      });
+        },
+        updatePass(){
+            axiosinst.post('http://localhost:8000/api/sendNewPass',{
+                newPass:this.newPass,
+                oldPass:this.oldPass,
+                confPass:this.confPass,
+            },{
+        headers:{
+          'Authorization':'Bearer '+window.localStorage.getItem('userToken'),
+        }
+      }).then(()=>{
+        this.$router.go(0);
+      }).catch((err)=>{
+        if(err.response){
+          if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
+        }
+      });
+        },
         logout(){
             axiosinst.post('http://localhost:8000/api/logoutUser',{},{
                 headers:{
@@ -260,17 +336,7 @@ export default {
                 this.emailDB=res.data.email;
                 this.classDB=res.data.class;
                 //this.imgDB=res.data.image;
-                axiosinst.post('http://localhost:8000/api/showProfilePic',{},{
-                headers:{
-                    'Authorization': 'Bearer '+window.localStorage.getItem('userToken'),
-                }
-            }).then((res)=>{
-                console.info(res);
-                console.info(res.headers['content-type'].split('/')[1]);
-                this.imgDB='data:image/'+res.headers['content-type'].split('/')[1]+';base64,' + btoa(
-                        new Uint8Array(this.imgDB)
-                        .reduce((data, byte) => data + String.fromCharCode(byte), '')
-                    );
+                
             }).catch((err)=>{
                 console.error(err);
                 if(err.response){
@@ -279,6 +345,14 @@ export default {
                     console.warn(err.response.status);
                 }
             });
+            axiosinst.post('http://localhost:8000/api/showProfilePic',{},{
+                headers:{
+                    'Authorization': 'Bearer '+window.localStorage.getItem('userToken'),
+                }
+            }).then((res)=>{
+                console.info(res);
+                console.info(res.headers['content-type'].split('/')[1]);
+                this.imgDB=res.data.split(',')[1];
             }).catch((err)=>{
                 console.error(err);
                 if(err.response){
@@ -363,7 +437,11 @@ export default {
                     console.warn(err.response.status);
                 }
             });
-      }
+      },
+          showBox(obj){
+        document.location.href+='#privateroom'
+        this.currRoom=obj;
+    }
 
     },
     mounted() {
@@ -381,7 +459,20 @@ export default {
                     console.warn(err.response.status);
                 }
             });
+            axiosinst.post('http://localhost:8000/api/getRandomRooms',{},{
+        headers:{
+          'Authorization':'Bearer '+window.localStorage.getItem('userToken'),
+        }
+      }).then((res)=>{
+        this.roomsDB=res.data;
+      }).catch((err)=>{
+        if(err.response){
+          if(err.response.status==401||err.response.status==419)this.$router.push('/LogIn');
+        }
+      });
+        this.getInfo();
     },
+
 }
 </script>
 
@@ -538,7 +629,7 @@ export default {
         display: none;
     }
     #boxchange {
-       height: 85%;
+       height: 87%;
     width: 40%;
     text-align: center;
     padding-top: 5px;
@@ -631,4 +722,71 @@ export default {
    background-repeat: no-repeat;}
     #st2{ background-image: url('../assets/black.jpg');
    background-repeat: no-repeat;}
+    #privateroom{
+       background: #f4f4f480;
+       width: 100%;
+       height: 100%;
+       position: absolute;
+       top: 0;
+       left: 0;
+       display: none;
+
+     }
+
+     #privateroom:target {
+       display: block;
+     }
+     #boxprivateroom {
+
+      height: 30%;
+      width: 30%;
+      text-align: center;
+      padding-top: 5px;
+      padding-left: 5%;
+      padding-right: 5%;
+      padding-bottom: 5%;
+      border: 3px solid #939b62;
+      border-radius: 10px;
+      color: #939b62;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      bottom: 10px;
+      left: 10px;
+      margin: auto;
+    background:#ffd56b;
+    }
+    .done {
+      background: none;
+      display: block;
+      margin: 30px auto;
+      text-align: center;
+      border: 2px solid #939b62;
+      padding: 14px 40px;
+      outline: none;
+      color: white;
+      border-radius: 24px;
+      transition: 0.25s;
+      cursor: pointer;
+        color: #111;
+    }
+    .done:hover {
+      background: #939b62;
+    }
+input[type="text"] {
+ background: none;
+margin-left:100px;
+ text-align: center;
+ border: 2px solid #939b62;
+ padding: 14px 10px;
+ width: 30%;
+ outline: none;
+ color: white;
+ border-radius: 24px;
+ transition: 0.25s;
+}
+ input[type="text"]:focus {
+width: 80%;
+ border-color: #ff7b54;
+}
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div id="nav" v-if="!['sturoom','teacher','student','chat','teacherroom','games'].includes($route.name)">
+  <div id="nav" v-if="!['sturoom','teacher','student','chat','teacherroom','games','stugame','parents'].includes($route.name)">
 <div id ="nav2">
     <router-link to="/" exact style=" font-size: 20px; margin-left:30px;">الصفحة الرئيسة</router-link> |
     <router-link to="/signup" style=" font-size: 20px; margin-right:40px; margin-left:30px;">انشاء حساب </router-link>|

@@ -49,7 +49,7 @@
       </div>
     </div>
      <div class="convo-container">
-      <div class="back" @click="this.$router.back(-1)">
+      <div class="back" @click="$router.back(-1)">
         <a>
           <img :src="backLogo">
         </a>
@@ -219,7 +219,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   .container{
     margin: auto;
     font-family: sans-serif;

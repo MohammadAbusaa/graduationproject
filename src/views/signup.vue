@@ -62,7 +62,7 @@ export default {
       }).then((res)=>{
         this.$router.push(res.data);
       }).catch((err)=>{
-        alert(err.data);
+        console.log(err.data);
       })
     },
     select(){
